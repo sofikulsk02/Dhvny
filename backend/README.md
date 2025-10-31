@@ -60,7 +60,7 @@ MONGODB_URI=mongodb://localhost:27017/dhvny
 npm run dev
 ```
 
-Server runs on: **http://localhost:4000**
+Server runs on: **http://localhost:4000** or you can chose the port
 
 ## 📡 API Endpoints
 
@@ -296,5 +296,3 @@ This is a personal learning project. Feel free to experiment!
 MIT - Do whatever you want with this code!
 
 ---
-
-**Built with ❤️ for learning how big tech works**

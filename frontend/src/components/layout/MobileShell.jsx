@@ -384,7 +384,7 @@ export default function MobileShell(props) {
     >
       {/* Top bar */}
       <header
-        className="flex items-center px-3 py-2 border-b dark:border-gray-700"
+        className="fixed top-0 left-0 right-0 z-50 flex items-center px-3 py-2 border-b dark:border-gray-700 bg-white dark:bg-[#0c0c0c] max-w-md mx-auto"
         role="banner"
       >
         {/* Profile with dropdown */}
@@ -543,12 +543,12 @@ export default function MobileShell(props) {
       </header>
 
       {/* Main content */}
-      <main className="flex-1 overflow-auto">
+      <main className="flex-1 overflow-auto pt-14 pb-32">
         <div className="px-4 py-3">{children}</div>
       </main>
 
       {/* Mini Player */}
-      <div className="border-t bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+      <div className="fixed bottom-14 left-0 right-0 z-40 border-t bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 max-w-md mx-auto">
         {currentSong ? (
           <div
             role="region"
@@ -644,7 +644,7 @@ export default function MobileShell(props) {
 
       {/* Bottom Nav */}
       <nav
-        className="border-t bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700"
+        className="fixed bottom-0 left-0 right-0 z-50 border-t bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 max-w-md mx-auto"
         role="navigation"
         aria-label="Bottom Navigation"
       >
