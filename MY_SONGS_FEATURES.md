@@ -2,14 +2,6 @@
 
 ## ✅ Your Music Collection
 
-### 🎶 Your 3 Main Songs:
-
-1. **Hips Don't Lie** - Shakira ft. Wyclef Jean (Pop, 3:52)
-2. **Despacito** - Luis Fonsi ft. Daddy Yankee (Latin, 3:49)
-3. **Aayat** - Arijit Singh from Bajirao Mastani (Bollywood, 5:12)
-
----
-
 ## 🎯 All Features Implemented
 
 ### 📱 Navigation
@@ -193,16 +185,6 @@ Ready to add more songs? You can:
 
 ---
 
-## 💡 Tips
-
-- **Legend System**: Promote any song 3 times (even by yourself in dev) to see the ⭐ badge
-- **Queue Viewer**: Scroll down on My Songs page to see and manage queue
-- **View Modes**: Grid view = cards, List view = compact rows
-- **Like Songs**: Click heart icon on song card or in 3-dot menu
-- **Share Songs**: Uses clipboard API, perfect for sending to friends
-
----
-
-## 🎵 Enjoy your music! 🎵
+## 🎵 Enjoy My music! 🎵
 
 All features are working and ready to use. Your 3 songs are loaded and ready to play!

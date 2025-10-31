@@ -16,7 +16,7 @@ A modern music streaming and social platform built with React, Node.js, Express,
 
 ```bash
 # Clone repository
-git clone <your-repo-url>
+git clone https://github.com/sofikulsk02/Dhvny.git
 cd Dhvny
 
 # Install backend dependencies
@@ -33,16 +33,16 @@ npm install
 Create `backend/.env` file:
 
 ```env
-PORT=4000
+PORT=your port no(not specific)
 NODE_ENV=development
 
 # MongoDB Atlas
-MONGODB_URI=mongodb+srv://dhvny:e0Csj6CoX7cl2Nvb@dhvny-cluster.dxj50pp.mongodb.net/dhvny?retryWrites=true&w=majority
+MONGODB_URI=the mongo url you have created in mongoDb Atlas
 
-# JWT Secrets (CHANGE IN PRODUCTION!)
+# JWT Secrets
 JWT_SECRET=your-super-secret-jwt-key-change-this
 JWT_REFRESH_SECRET=your-refresh-secret-change-this-too
-JWT_EXPIRES_IN=7d
+JWT_EXPIRES_IN=7d or as your choice
 JWT_REFRESH_EXPIRES_IN=30d
 
 # CORS

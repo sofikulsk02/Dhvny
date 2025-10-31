@@ -89,7 +89,7 @@ You have **2 options**:
 
 7. **Update backend/.env:**
    ```env
-   MONGODB_URI=mongodb+srv://dhvny:dhvny123@cluster0.xxxxx.mongodb.net/dhvny
+   MONGODB_URI=mongodb+srv:url-continued -- your case
    ```
 
 ### Option 2: Local MongoDB (💻 Install Locally)
@@ -129,13 +129,13 @@ npm run dev
 
 ```
 ✅ Connected to MongoDB
-🚀 Server running on http://localhost:4000
+🚀 Server running on http://localhost:4000   in your case you can keep it as your choice
 ```
 
 ### Start Frontend
 
 ```powershell
-# Terminal 2
+
 cd C:\Dhvny\frontend
 npm run dev
 ```
@@ -183,37 +183,6 @@ npm run dev
   net start MongoDB
   ```
 
-### ❌ "Port 4000 already in use"
-
-**Solution:**
-
-```powershell
-# Find process
-netstat -ano | findstr :4000
-# Kill it (replace PID)
-taskkill /PID <PID> /F
-```
-
-### ❌ CORS error in browser
-
-**Solution:** Make sure backend is running and `CORS_ORIGIN` matches frontend:
-
-```env
-# backend/.env
-CORS_ORIGIN=http://localhost:5174
-```
-
-### ❌ Frontend shows "Network Error"
-
-**Solution:**
-
-1. Check backend is running (http://localhost:4000/health)
-2. Check `frontend/.env` has correct URL:
-   ```env
-   VITE_API_BASE_URL=http://localhost:4000/api
-   ```
-3. Restart frontend: `Ctrl+C` then `npm run dev`
-
 ---
 
 ## 📊 Day 1 Checklist
@@ -230,7 +199,7 @@ Before moving to Day 2, make sure:
 
 ---
 
-## 📚 What You Learned Today
+## 📚 What I Learned Today
 
 1. **Backend Setup:**
 
@@ -270,7 +239,7 @@ Before moving to Day 2, make sure:
 
 ## 🎯 Tomorrow (Day 2): Song Upload System
 
-We'll build:
+I will build:
 
 - **Backend:**
 
@@ -287,29 +256,6 @@ We'll build:
   - Navigate to uploaded song
 
 **Estimated time:** 2-3 hours
-
----
-
-## 💡 Tips for Tomorrow
-
-1. **Think about:** Where to store songs? (We'll use `backend/uploads/audio/`)
-2. **Prepare:** Have a few MP3 files ready to test upload
-3. **Optional:** Research ID3 tags (song metadata)
-
----
-
-## 🎊 Great Job Today!
-
-You now have a **fully functional authentication system** with:
-
-- Secure user registration
-- JWT-based login
-- Protected API routes
-- Persistent sessions
-
-This is the **foundation** for everything else. Authentication is the hardest part - and you've got it working! 🎉
-
-**See you tomorrow for Day 2!** 🚀
 
 ---
 
@@ -336,5 +282,3 @@ A: In MongoDB database named "dhvny" (Atlas cloud or local).
 A: Not yet - localhost only. We can set up tunneling (ngrok) later if you want.
 
 ---
-
-**Rest well! Tomorrow we upload music! 🎵**
