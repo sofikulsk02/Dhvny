@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+/* Base dark mode styles */
+@layer base {
+  /* Ensure smooth transitions between themes */
+  * {
+    @apply transition-colors duration-200;
+  }
+
+  /* Dark mode color scheme */
+  .dark {
+    color-scheme: dark;
+  }
+
+  /* Only apply dark background to body when inside mobile-shell */
+  .dark .mobile-shell {
+    @apply bg-gray-900 text-gray-100;
+  }
+}
+
+/* Global dark mode overrides for common patterns */
+/* Only apply inside the main app container, not on login/signup pages */
+@layer utilities {
+  /* Override common hardcoded light colors in dark mode */
+  .dark .mobile-shell .bg-white,
+  .dark main .bg-white {
+    @apply !bg-gray-800;
+  }
+
+  .dark .mobile-shell .bg-gray-50,
+  .dark main .bg-gray-50 {
+    @apply !bg-gray-900;
+  }
+
+  .dark .mobile-shell .bg-gray-100,
+  .dark main .bg-gray-100 {
+    @apply !bg-gray-800;
+  }
+
+  .dark .mobile-shell .bg-gray-200,
+  .dark main .bg-gray-200 {
+    @apply !bg-gray-700;
+  }
+
+  .dark .mobile-shell .text-gray-900,
+  .dark main .text-gray-900 {
+    @apply !text-gray-100;
+  }
+
+  .dark .mobile-shell .text-gray-800,
+  .dark main .text-gray-800 {
+    @apply !text-gray-200;
+  }
+
+  .dark .mobile-shell .text-gray-700,
+  .dark main .text-gray-700 {
+    @apply !text-gray-300;
+  }
+
+  .dark .mobile-shell .text-gray-600,
+  .dark main .text-gray-600 {
+    @apply !text-gray-400;
+  }
+
+  .dark .mobile-shell .border-gray-200,
+  .dark main .border-gray-200 {
+    @apply !border-gray-700;
+  }
+
+  .dark .mobile-shell .border-gray-300,
+  .dark main .border-gray-300 {
+    @apply !border-gray-600;
+  }
+
+  /* Handle transparent backgrounds */
+  .dark .mobile-shell [class*="bg-white/"],
+  .dark main [class*="bg-white/"] {
+    background-color: rgb(31 41 55 / var(--tw-bg-opacity, 0.8)) !important;
+  }
+
+  /* Handle hover states */
+  .dark .mobile-shell .hover\:bg-gray-50:hover,
+  .dark main .hover\:bg-gray-50:hover {
+    @apply !bg-gray-700;
+  }
+
+  .dark .mobile-shell .hover\:bg-gray-100:hover,
+  .dark main .hover\:bg-gray-100:hover {
+    @apply !bg-gray-700;
+  }
+
+  .dark .mobile-shell .hover\:bg-white:hover,
+  .dark main .hover\:bg-white:hover {
+    @apply !bg-gray-700;
+  }
+
+  /* Handle ring colors */
+  .dark .mobile-shell .ring-gray-200,
+  .dark main .ring-gray-200 {
+    @apply !ring-gray-700;
+  }
+
+  /* Handle divide colors */
+  .dark .mobile-shell .divide-gray-200 > * + *,
+  .dark main .divide-gray-200 > * + * {
+    @apply !border-gray-700;
+  }
+
+  /* Handle placeholders */
+  .dark .mobile-shell input::placeholder,
+  .dark .mobile-shell textarea::placeholder,
+  .dark main input::placeholder,
+  .dark main textarea::placeholder {
+    @apply !text-gray-500;
+  }
+
+  /* Handle shadows in dark mode */
+  .dark .mobile-shell [class*="shadow"],
+  .dark main [class*="shadow"] {
+    --tw-shadow-color: rgb(0 0 0 / 0.5);
+    --tw-shadow: var(--tw-shadow-colored);
+  }
+
+  /* Splash screen animations */
+  @keyframes gradient-shift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .animate-gradient-shift {
+    background-size: 200% 200%;
+    animation: gradient-shift 3s ease infinite;
+  }
+}
