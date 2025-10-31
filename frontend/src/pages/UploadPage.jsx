@@ -239,9 +239,9 @@ export default function UploadPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-indigo-50 pb-24 overflow-x-hidden">
+    <div className="min-h-screen pb-24 overflow-x-hidden">
       {/* Header */}
-      <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 text-white py-8 px-4 sm:px-6">
+      <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 text-white py-8 px-4 sm:px-6 rounded-t-lg">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl sm:text-4xl font-bold mb-2">Upload Song</h1>
           <p className="text-purple-100">Share your music with the world</p>

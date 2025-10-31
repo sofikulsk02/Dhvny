@@ -91,7 +91,7 @@ export default function LoginPage() {
                 <input
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
-                  className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 transition-all duration-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none"
+                  className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 transition-all duration-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none bg-white"
                   placeholder="you@example.com or username"
                   autoComplete="username"
                 />
@@ -123,7 +123,7 @@ export default function LoginPage() {
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 pr-12 transition-all duration-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none"
+                  className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 pr-12 text-gray-900 placeholder-gray-400 transition-all duration-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none bg-white"
                   placeholder="••••••••"
                   autoComplete="current-password"
                 />

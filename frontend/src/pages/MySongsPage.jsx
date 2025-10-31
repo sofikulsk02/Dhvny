@@ -122,9 +122,9 @@ export default function MySongsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 pb-24 overflow-x-hidden">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#0f0f10] pb-24 overflow-x-hidden">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 text-white overflow-hidden">
+      <div className="relative bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 text-white overflow-hidden rounded-t-lg">
         {/* Animated Background */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -top-40 -right-40 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
@@ -272,7 +272,7 @@ export default function MySongsPage() {
                   ))}
                 </div>
               ) : (
-                <div className="divide-y divide-gray-100 p-4">
+                <div className="divide-y divide-gray-100 mb-3 p-4">
                   {songs.map((song) => (
                     <SongCard
                       key={song.songId}

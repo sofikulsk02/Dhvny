@@ -184,12 +184,12 @@ export default function SongCard({
 
   return (
     <div
-      className={`group relative bg-white rounded-xl hover:shadow-lg transition-all ${
+      className={`group relative bg-white dark:bg-gray-800 rounded-xl hover:shadow-lg dark:hover:shadow-gray-900/50 transition-all ${
         compact ? "text-sm" : ""
       } ${
         layout === "list"
-          ? "flex items-center gap-4 p-4"
-          : "flex flex-col shadow-md"
+          ? "flex items-center gap-4 p-4 mb-3"
+          : "flex flex-col shadow-md dark:shadow-gray-900/30"
       }`}
       role="article"
       aria-label={`${song.title} - ${song.artist || "Unknown"}`}
@@ -257,7 +257,7 @@ export default function SongCard({
         <div className="flex items-center justify-between gap-3">
           <div className="flex-1 min-w-0">
             <h3
-              className={`font-semibold text-gray-900 truncate cursor-pointer hover:text-purple-600 transition-colors ${
+              className={`font-semibold text-gray-900 dark:text-gray-100 truncate cursor-pointer hover:text-purple-600 dark:hover:text-purple-400 transition-colors ${
                 layout === "list" ? "text-base" : "text-sm"
               }`}
               title={song.title}
@@ -266,7 +266,7 @@ export default function SongCard({
               {song.title || "Untitled"}
             </h3>
             <p
-              className={`text-gray-500 truncate ${
+              className={`text-gray-500 dark:text-gray-400 truncate ${
                 layout === "list" ? "text-sm" : "text-xs mt-1"
               }`}
             >
@@ -275,22 +275,27 @@ export default function SongCard({
 
             {/* Tags - only in grid view */}
             {song.tags && song.tags.length > 0 && layout === "grid" && (
-              <div className="mt-3 flex items-center gap-2 overflow-hidden flex-wrap">
-                {song.tags.slice(0, 3).map((t, i) => (
+              <div className="mt-3 flex items-center gap-2 overflow-hidden">
+                {song.tags.slice(0, 2).map((t, i) => (
                   <span
                     key={i}
-                    className="text-xs bg-purple-50 text-purple-600 px-2 py-1 rounded-full"
+                    className="text-xs bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-300 px-2 py-1 rounded-full whitespace-nowrap"
                   >
                     {t}
                   </span>
                 ))}
+                {song.tags.length > 2 && (
+                  <span className="text-xs text-gray-400 dark:text-gray-500">
+                    +{song.tags.length - 2}
+                  </span>
+                )}
               </div>
             )}
           </div>
 
           {/* Duration - only in list view */}
           {layout === "list" && (
-            <div className="text-sm text-gray-400 px-4">
+            <div className="text-sm text-gray-400 dark:text-gray-500 px-4">
               {formatDuration(song.duration)}
             </div>
           )}
@@ -303,11 +308,15 @@ export default function SongCard({
                 type="button"
                 onClick={handleToggleLike}
                 aria-pressed={liked}
-                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                 title={liked ? "Unlike" : "Like"}
                 disabled={working}
               >
-                <span className={liked ? "text-red-500" : "text-gray-400"}>
+                <span
+                  className={
+                    liked ? "text-red-500" : "text-gray-400 dark:text-gray-500"
+                  }
+                >
                   <IconHeart size={18} />
                 </span>
               </button>
@@ -318,8 +327,10 @@ export default function SongCard({
                   type="button"
                   ref={optionsButtonRef}
                   onClick={openOptions}
-                  className={`p-2 rounded-full transition-colors text-gray-600 hover:text-gray-900 ${
-                    optionsOpen ? "bg-purple-100" : "hover:bg-gray-100"
+                  className={`p-2 rounded-full transition-colors text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 ${
+                    optionsOpen
+                      ? "bg-purple-100 dark:bg-purple-900/30"
+                      : "hover:bg-gray-100 dark:hover:bg-gray-700"
                   }`}
                   aria-haspopup="true"
                   aria-expanded={optionsOpen}

@@ -99,7 +99,7 @@ export default function RegisterPage() {
                 <input
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 transition-all duration-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none"
+                  className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 bg-white transition-all duration-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none"
                   placeholder="Choose a unique username"
                 />
                 <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
@@ -130,7 +130,7 @@ export default function RegisterPage() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 transition-all duration-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none"
+                  className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 bg-white transition-all duration-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none"
                   placeholder="you@example.com"
                 />
                 <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
@@ -160,7 +160,7 @@ export default function RegisterPage() {
               <input
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
-                className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 transition-all duration-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none"
+                className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 bg-white transition-all duration-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none"
                 placeholder="How should we call you?"
               />
             </div>
@@ -175,7 +175,7 @@ export default function RegisterPage() {
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 pr-12 transition-all duration-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none"
+                  className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 pr-12 text-gray-900 placeholder-gray-400 bg-white transition-all duration-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none"
                   placeholder="At least 6 characters"
                 />
                 <button
@@ -231,7 +231,7 @@ export default function RegisterPage() {
                 type={showPassword ? "text" : "password"}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 transition-all duration-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none"
+                className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 bg-white transition-all duration-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none"
                 placeholder="Re-enter your password"
               />
             </div>

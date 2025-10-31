@@ -18,16 +18,16 @@ export default function HomePage() {
   const [songs, setSongs] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch uploaded songs
+  // yaaha se song fetching
   useEffect(() => {
     const fetchSongs = async () => {
       try {
         setLoading(true);
 
-        // Helper to get full URL
+        // helper to get get the full url
         const getFullUrl = (url) => {
           if (!url) return "";
-          if (url.startsWith("http")) return url; // Already full URL (Cloudinary)
+          if (url.startsWith("http")) return url; // already full url (my Cloudinary)
           // Relative path - prepend backend URL
           const baseUrl =
             import.meta.env.VITE_API_BASE_URL?.replace("/api", "") ||
@@ -60,10 +60,11 @@ export default function HomePage() {
     fetchSongs();
   }, []);
 
-  // Auto-load songs to queue when they're fetched
+  // auto-load songs to queue when they're fetched
+  //pehle bhi songs the, manually added
   useEffect(() => {
     if (songs.length > 0) {
-      // Check if songs are already in queue
+      //if songs are already in queue
       songs.forEach((song) => {
         const songInQueue = queue.find(
           (s) => (s.songId || s.id) === (song.songId || song.id)
@@ -81,7 +82,7 @@ export default function HomePage() {
     console.log("   Song ID to play:", song.songId || song.id);
     console.log("   Current song ID:", currentSong?.songId || currentSong?.id);
 
-    // Check if this is the currently playing song
+    // Check if this is the currently playing song (pehla)
     const isCurrent =
       currentSong &&
       (currentSong.songId || currentSong.id) === (song.songId || song.id);
@@ -89,20 +90,20 @@ export default function HomePage() {
     console.log("   Is current song?", isCurrent);
 
     if (isCurrent) {
-      // Same song - toggle play/pause
+      // same song - toggle play/pause
       console.log("   Action: Toggle play/pause");
       togglePlaying();
       return;
     }
 
-    // Different song - switch to it
+    // different song - switch to it (yehi wala play karna)
     console.log("   Action: Switch to different song");
     const songInQueue = queue.find(
       (s) => (s.songId || s.id) === (song.songId || song.id)
     );
 
     if (songInQueue) {
-      // Song is in queue, just switch to it
+      // Song phle se hi queue mein hai (the song is already in the queue)
       console.log("   Song found in queue, switching to it");
       setCurrentBySongId(song.songId || song.id);
       setPlaying(true);
@@ -118,15 +119,16 @@ export default function HomePage() {
     }
   };
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 p-6">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#0f0f10] p-6">
       {/* Welcome Section */}
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-4xl font-bold bg-linear-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
-            Welcome back{user?.displayName ? `, ${user.displayName}` : ""}! 👋
+            Welcome to Dhvny {user?.displayName ? `, ${user.displayName}` : ""}!
+            👋
           </h1>
-          <p className="text-gray-600">
-            Ready to discover your next favorite song?
+          <p className="text-gray-600 dark:text-yellow-400">
+            Resonate with Your Tribe
           </p>
         </div>
 
@@ -134,7 +136,7 @@ export default function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <Link
             to="/upload"
-            className="group bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-purple-100"
+            className="group bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-purple-100 dark:bg-gray-900"
           >
             <div className="w-12 h-12 bg-linear-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
               <svg
@@ -159,7 +161,7 @@ export default function HomePage() {
 
           <Link
             to="/collections"
-            className="group bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-blue-100"
+            className="group dark:bg-gray-900 bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-blue-100"
           >
             <div className="w-12 h-12 bg-linear-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
               <svg
@@ -184,7 +186,7 @@ export default function HomePage() {
 
           <Link
             to="/friends"
-            className="group bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-green-100"
+            className="group dark:bg-gray-900 bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-green-100"
           >
             <div className="w-12 h-12 bg-linear-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
               <svg
@@ -210,7 +212,7 @@ export default function HomePage() {
 
         {/* Featured Section */}
         <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-4 ">
             <h2 className="text-2xl font-bold text-gray-900">🔥 Your Music</h2>
             <Link
               to="/my-songs"
@@ -226,7 +228,7 @@ export default function HomePage() {
               <p className="mt-2 text-gray-600 text-sm">Loading songs...</p>
             </div>
           ) : songs.length === 0 ? (
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-12 text-center shadow-lg">
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-12 text-center shadow-lg ">
               <div className="text-6xl mb-4">🎵</div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
                 No songs yet!
@@ -255,9 +257,9 @@ export default function HomePage() {
                   <div
                     key={song.songId}
                     onClick={() => handlePlaySong(song)}
-                    className="group bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+                    className="group  bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer"
                   >
-                    <div className="aspect-square bg-gradient-to-br from-purple-400 to-pink-400 rounded-xl mb-3 flex items-center justify-center relative overflow-hidden">
+                    <div className="aspect-square  bg-gradient-to-br from-purple-400 to-pink-400 rounded-xl mb-3 flex items-center justify-center relative overflow-hidden">
                       {song.coverUrl ? (
                         <img
                           src={song.coverUrl}
@@ -361,7 +363,7 @@ export default function HomePage() {
                     <div
                       key={song.songId}
                       onClick={() => handlePlaySong(song)}
-                      className="flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer group"
+                      className="flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer group dark:bg-gray-900"
                     >
                       <div className="w-14 h-14 bg-gradient-to-br from-purple-400 to-pink-400 rounded-lg shrink-0 flex items-center justify-center relative overflow-hidden">
                         {song.coverUrl ? (

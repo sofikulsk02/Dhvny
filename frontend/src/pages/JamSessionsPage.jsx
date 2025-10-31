@@ -50,13 +50,13 @@ export default function JamSessionsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-indigo-50 pb-24">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#0a0a0b] pb-24">
       {/* Header */}
       <div className="px-4 pt-6 pb-4">
         <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
           Jam Sessions 🎵
         </h1>
-        <p className="text-gray-600 mt-2">
+        <p className="text-gray-600 dark:text-gray-400 mt-2">
           Listen to music together in real-time with friends
         </p>
       </div>
@@ -74,7 +74,7 @@ export default function JamSessionsPage() {
             </div>
             <button
               onClick={() => navigate(`/jam/${currentJamSession._id}`)}
-              className="px-4 py-2 bg-white text-purple-600 rounded-lg font-medium hover:bg-purple-50 transition-colors"
+              className="px-4 py-2 bg-white dark:bg-gray-800 text-purple-600 dark:text-purple-400 rounded-lg font-medium hover:bg-purple-50 dark:hover:bg-gray-700 transition-colors"
             >
               Open Room
             </button>
@@ -102,7 +102,7 @@ export default function JamSessionsPage() {
             <p className="text-gray-500 mt-2">Loading sessions...</p>
           </div>
         ) : jamSessions.length === 0 ? (
-          <div className="text-center py-12 bg-white rounded-xl shadow-sm">
+          <div className="text-center py-12 bg-white dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-700/80 rounded-xl shadow-sm dark:shadow-gray-900/30 ring-1 ring-black/10 dark:ring-white/5">
             <div className="text-6xl mb-4">🎵</div>
             <p className="text-gray-500 mb-2">No active jam sessions</p>
             <p className="text-sm text-gray-400">Be the first to create one!</p>
@@ -120,26 +120,26 @@ export default function JamSessionsPage() {
               return (
                 <div
                   key={session._id}
-                  className="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition-shadow"
+                  className="bg-white dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-700/80 rounded-xl shadow-md dark:shadow-gray-900/40 p-4 hover:shadow-lg dark:hover:shadow-gray-900/70 transition-all border border-transparent dark:border-gray-600 ring-1 ring-black/10 dark:ring-white/5"
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
-                        <h3 className="font-semibold text-lg">
+                        <h3 className="font-semibold text-lg text-gray-900 dark:text-gray-100">
                           {session.name}
                         </h3>
                         {isHost && (
-                          <span className="px-2 py-0.5 bg-purple-100 text-purple-700 text-xs rounded-full">
+                          <span className="px-2 py-0.5 bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 text-xs rounded-full">
                             Host
                           </span>
                         )}
                         {session.isPublic && (
-                          <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full">
+                          <span className="px-2 py-0.5 bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 text-xs rounded-full">
                             Public
                           </span>
                         )}
                       </div>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
                         Host: {session.host?.displayName || "Unknown"}
                       </p>
                     </div>
@@ -147,12 +147,14 @@ export default function JamSessionsPage() {
 
                   {/* Current Song */}
                   {session.currentSong && (
-                    <div className="mb-3 p-2 bg-gray-50 rounded-lg">
-                      <p className="text-xs text-gray-500 mb-1">Now Playing:</p>
-                      <p className="text-sm font-medium">
+                    <div className="mb-3 p-2 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">
+                        Now Playing:
+                      </p>
+                      <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
                         {session.currentSong.title}
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
                         {session.currentSong.artist}
                       </p>
                     </div>
@@ -171,7 +173,7 @@ export default function JamSessionsPage() {
                         </div>
                       ))}
                     </div>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                       {participantCount} / {session.maxParticipants} people
                     </p>
                   </div>
@@ -204,7 +206,7 @@ export default function JamSessionsPage() {
       {/* Create Session Modal */}
       {showCreateModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-md">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-md">
             <h2 className="text-2xl font-bold mb-4">Create Jam Session</h2>
             <form onSubmit={handleCreateSession}>
               <div className="mb-4">

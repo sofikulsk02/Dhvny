@@ -186,30 +186,20 @@ const IconJam = ({ size = 20 }) => (
     aria-hidden="true"
   >
     <path
-      d="M9 18V5l12-2v13"
+      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
       stroke="currentColor"
       strokeWidth="1.2"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
-    <circle
-      cx="6"
-      cy="18"
-      r="3"
+    <path
+      d="M8 14.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9h2"
       stroke="currentColor"
       strokeWidth="1.2"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
-    <circle
-      cx="18"
-      cy="16"
-      r="3"
-      stroke="currentColor"
-      strokeWidth="1.2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
+    <circle cx="15" cy="9" r="1.5" stroke="currentColor" strokeWidth="1.2" />
   </svg>
 );
 
@@ -385,7 +375,7 @@ export default function MobileShell(props) {
 
   return (
     <div
-      className="mobile-shell min-h-screen max-w-md mx-auto bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col transition-colors"
+      className="mobile-shell min-h-screen max-w-md mx-auto bg-white dark:bg-[#0c0c0c] text-gray-900 dark:text-gray-100 flex flex-col transition-colors"
       style={{
         height: "100vh",
         maxWidth: 480,
@@ -558,13 +548,13 @@ export default function MobileShell(props) {
       </main>
 
       {/* Mini Player */}
-      <div className="border-t bg-white">
+      <div className="border-t bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
         {currentSong ? (
           <div
             role="region"
             aria-label="Mini player"
-            className="flex items-center px-3 py-2 cursor-pointer"
-            onClick={() => onMiniPlayerClick(currentSong)}
+            className="flex items-center px-3 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+            onClick={() => navigate("/now-playing")}
           >
             <div className="w-12 h-12 rounded-md overflow-hidden flex-shrink-0 bg-gray-100">
               {currentSong.coverUrl ? (
@@ -654,7 +644,7 @@ export default function MobileShell(props) {
 
       {/* Bottom Nav */}
       <nav
-        className="border-t bg-white"
+        className="border-t bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700"
         role="navigation"
         aria-label="Bottom Navigation"
       >

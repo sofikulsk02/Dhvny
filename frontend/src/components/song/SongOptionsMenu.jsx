@@ -33,7 +33,7 @@ function SmallButton({ children, onClick, className = "" }) {
     <button
       type="button"
       onClick={onClick}
-      className={`px-4 py-3 text-sm font-medium rounded-lg hover:bg-purple-50 active:bg-purple-100 transition-colors focus:outline-none ${className}`}
+      className={`px-4 py-3 text-sm font-medium rounded-lg transition-colors focus:outline-none ${className}`}
     >
       {children}
     </button>
@@ -525,10 +525,10 @@ export default function SongOptionsMenu({
   ]);
 
   return (
-    <div className="w-80 bg-white rounded-2xl shadow-2xl ring-1 ring-black ring-opacity-10 overflow-hidden">
-      <div className="px-5 py-4 border-b border-gray-100 bg-gradient-to-r from-purple-50 to-pink-50">
+    <div className="w-80 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl ring-1 ring-black ring-opacity-10 dark:ring-gray-700 overflow-hidden">
+      <div className="px-5 py-4 border-b border-gray-100 dark:border-gray-700 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/30 dark:to-pink-900/30">
         <div className="flex items-center space-x-4">
-          <div className="w-14 h-14 rounded-xl overflow-hidden bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center text-gray-400 shadow-md">
+          <div className="w-14 h-14 rounded-xl overflow-hidden bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/50 dark:to-pink-900/50 flex items-center justify-center text-gray-400 dark:text-gray-500 shadow-md">
             {song.coverUrl ? (
               <img
                 src={song.coverUrl}
@@ -540,15 +540,15 @@ export default function SongOptionsMenu({
             )}
           </div>
           <div className="flex-1 min-w-0">
-            <div className="text-base font-semibold truncate text-gray-900">
+            <div className="text-base font-semibold truncate text-gray-900 dark:text-gray-100">
               {song.title}
             </div>
-            <div className="text-sm text-gray-600 truncate">{song.artist}</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400 truncate">{song.artist}</div>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/50 text-gray-500 hover:text-gray-700 transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/50 dark:hover:bg-gray-700/50 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
           >
             <span className="text-lg">✕</span>
           </button>
@@ -558,15 +558,15 @@ export default function SongOptionsMenu({
       <div className="py-2">
         {menuItems.map((m) => (
           <div key={m.id} className="px-2">
-            <SmallButton onClick={m.action} className="w-full text-left">
+            <SmallButton onClick={m.action} className="w-full text-left text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-purple-900/30">
               {m.label}
             </SmallButton>
           </div>
         ))}
       </div>
 
-      <div className="px-4 py-3 border-t border-gray-100 text-xs text-gray-500 bg-gray-50">
-        {notice && <div className="text-sm text-indigo-600 mb-2">{notice}</div>}
+      <div className="px-4 py-3 border-t border-gray-100 dark:border-gray-700 text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-900/50">
+        {notice && <div className="text-sm text-indigo-600 dark:text-indigo-400 mb-2">{notice}</div>}
         {loading && <div className="text-sm">Working…</div>}
         <div className="mt-1">
           <div className="text-xs font-medium">

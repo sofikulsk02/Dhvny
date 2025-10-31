@@ -128,9 +128,9 @@ export default function NotificationsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-indigo-50 pb-24">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#0f0f10] pb-24">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
+      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
         <div className="p-4">
           <div className="flex items-center justify-between mb-2">
             <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
@@ -191,10 +191,10 @@ export default function NotificationsPage() {
               <div
                 key={notification._id}
                 onClick={() => handleNotificationClick(notification)}
-                className={`group relative bg-white rounded-xl p-4 cursor-pointer transition-all duration-200 hover:shadow-md ${
+                className={`group relative bg-white dark:bg-gray-800 rounded-xl p-4 cursor-pointer transition-all duration-200 hover:shadow-md ${
                   notification.isRead
-                    ? "border border-gray-200"
-                    : "border-2 border-purple-200 bg-gradient-to-r from-purple-50 to-indigo-50"
+                    ? "border border-gray-200 dark:border-gray-700"
+                    : "border-2 border-purple-200 dark:border-purple-700 bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20"
                 }`}
               >
                 <div className="flex gap-3">

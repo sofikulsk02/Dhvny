@@ -104,7 +104,7 @@ const CollectionsPage = () => {
           </h2>
           <div
             onClick={() => handlePlaylistClick(globalPlaylist._id)}
-            className="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200 rounded-2xl p-4 cursor-pointer hover:shadow-lg transition-all active:scale-95"
+            className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border-2 border-purple-200 dark:border-purple-700 rounded-2xl p-4 cursor-pointer hover:shadow-lg transition-all active:scale-95"
           >
             <div className="flex items-start gap-4">
               <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center flex-shrink-0">
@@ -193,7 +193,7 @@ const PlaylistCard = ({ playlist, onClick, onDelete }) => {
 
   return (
     <div
-      className="relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all cursor-pointer active:scale-95"
+      className="relative bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all cursor-pointer active:scale-95"
       onClick={onClick}
     >
       {/* Cover Image */}

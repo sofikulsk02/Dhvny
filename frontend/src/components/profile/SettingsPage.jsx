@@ -294,7 +294,7 @@ const SettingsPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 pb-24">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#0f0f10] pb-24">
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -313,7 +313,7 @@ const SettingsPage = () => {
 
         <div className="flex flex-col md:flex-row gap-6">
           {/* Sidebar */}
-          <div className="md:w-64 bg-white rounded-2xl shadow-lg p-4">
+          <div className="md:w-64 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4">
             <div className="space-y-1">
               {sections.map((section) => {
                 const Icon = section.icon;
@@ -346,7 +346,7 @@ const SettingsPage = () => {
           </div>
 
           {/* Main Content */}
-          <div className="flex-1 bg-white rounded-2xl shadow-lg p-6">
+          <div className="flex-1 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
             {activeSection === "profile" && (
               <div>
                 <div className="flex items-center justify-between mb-6">
@@ -967,7 +967,7 @@ const SettingsPage = () => {
         </div>
 
         {/* Danger Zone */}
-        <div className="mt-6 bg-white rounded-2xl shadow-lg p-6 border-2 border-red-200">
+        <div className="mt-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border-2 border-red-200 dark:border-red-900">
           <h3 className="text-xl font-bold text-red-600 mb-4">Danger Zone</h3>
           <div className="space-y-4">
             <div className="flex items-center justify-between">

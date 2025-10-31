@@ -218,19 +218,19 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 pb-24 overflow-x-hidden">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#0f0f10] pb-24 overflow-x-hidden">
       {/* Header with cover/banner area */}
-      <div className="relative h-48 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400">
-        <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+      <div className="relative h-48 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 dark:from-purple-900 dark:via-pink-900 dark:to-indigo-900">
+        <div className="absolute inset-0 bg-black/20 dark:bg-black/40"></div>
       </div>
 
       {/* Profile Info */}
       <div className="max-w-5xl mx-auto px-4 -mt-20">
-        <div className="bg-white rounded-2xl shadow-xl p-4 md:p-6">
+        <div className="bg-white dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-700/80 rounded-2xl shadow-xl dark:shadow-gray-900/50 p-4 md:p-6 ring-1 ring-black/10 dark:ring-white/5">
           <div className="flex flex-col md:flex-row gap-4 md:gap-6">
             {/* Avatar */}
             <div className="relative flex-shrink-0 mx-auto md:mx-0">
-              <div className="w-28 h-28 md:w-32 md:h-32 rounded-full bg-gradient-to-br from-purple-200 to-pink-200 flex items-center justify-center text-3xl md:text-4xl font-bold text-purple-700 shadow-lg border-4 border-white">
+              <div className="w-28 h-28 md:w-32 md:h-32 rounded-full bg-gradient-to-br from-purple-200 to-pink-200 dark:from-purple-600 dark:to-pink-600 flex items-center justify-center text-3xl md:text-4xl font-bold text-purple-700 dark:text-white shadow-lg border-4 border-white dark:border-gray-700">
                 {profileUser.avatarUrl ? (
                   <img
                     src={profileUser.avatarUrl}
@@ -252,23 +252,23 @@ const ProfilePage = () => {
             <div className="flex-1 min-w-0">
               <div className="flex flex-col gap-4">
                 <div className="min-w-0">
-                  <h1 className="text-xl md:text-2xl font-bold text-gray-900 break-words">
+                  <h1 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-gray-100 break-words">
                     {profileUser.displayName}
                     {profileUser.isLegend && (
                       <span className="ml-2 text-yellow-500">⭐</span>
                     )}
                   </h1>
-                  <p className="text-gray-600 text-sm md:text-base break-all">
+                  <p className="text-gray-600 dark:text-gray-400 text-sm md:text-base break-all">
                     @{profileUser.username}
                   </p>
                   {profileUser.bio && (
-                    <p className="mt-2 text-sm md:text-base text-gray-700 break-words">
+                    <p className="mt-2 text-sm md:text-base text-gray-700 dark:text-gray-300 break-words">
                       {profileUser.bio}
                     </p>
                   )}
 
                   {/* Meta info */}
-                  <div className="mt-3 flex flex-wrap gap-3 md:gap-4 text-xs md:text-sm text-gray-600">
+                  <div className="mt-3 flex flex-wrap gap-3 md:gap-4 text-xs md:text-sm text-gray-600 dark:text-gray-400">
                     {profileUser.location && (
                       <div className="flex items-center gap-1">
                         <MapPin className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
@@ -295,7 +295,7 @@ const ProfilePage = () => {
                         href={profileUser.website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1 text-purple-600 hover:text-purple-700 truncate"
+                        className="flex items-center gap-1 text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 truncate"
                       >
                         <LinkIcon className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
                         <span className="truncate">Website</span>
@@ -353,9 +353,9 @@ const ProfilePage = () => {
                       )}
                       <button
                         onClick={handleShare}
-                        className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                        className="p-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                       >
-                        <Share2 className="w-5 h-5 text-gray-600" />
+                        <Share2 className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                       </button>
                     </>
                   )}
@@ -363,42 +363,44 @@ const ProfilePage = () => {
               </div>
 
               {/* Stats */}
-              <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-                <div className="cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors text-center">
-                  <div className="text-lg md:text-2xl font-bold text-gray-900">
+              <div className="mt-6 grid grid-cols-3 gap-2">
+                <div className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 p-2 sm:p-3 rounded-lg transition-colors text-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                  <div className="text-base sm:text-lg md:text-2xl font-bold text-gray-900 dark:text-gray-100 truncate">
                     {stats.uploads}
                   </div>
-                  <div className="text-xs md:text-sm text-gray-600">
+                  <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400 truncate">
                     Uploads
                   </div>
                 </div>
-                <div className="cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors text-center">
-                  <div className="text-lg md:text-2xl font-bold text-gray-900">
+                <div className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 p-2 sm:p-3 rounded-lg transition-colors text-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                  <div className="text-base sm:text-lg md:text-2xl font-bold text-gray-900 dark:text-gray-100 truncate">
                     {stats.likes}
                   </div>
-                  <div className="text-xs md:text-sm text-gray-600">Likes</div>
+                  <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400 truncate">
+                    Likes
+                  </div>
                 </div>
-                <div className="cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors text-center">
-                  <div className="text-lg md:text-2xl font-bold text-gray-900">
+                <div className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 p-2 sm:p-3 rounded-lg transition-colors text-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                  <div className="text-base sm:text-lg md:text-2xl font-bold text-gray-900 dark:text-gray-100 truncate">
                     {stats.playlists}
                   </div>
-                  <div className="text-xs md:text-sm text-gray-600">
+                  <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400 truncate">
                     Playlists
                   </div>
                 </div>
-                <div className="cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors text-center">
-                  <div className="text-lg md:text-2xl font-bold text-gray-900">
+                <div className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 p-2 sm:p-3 rounded-lg transition-colors text-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                  <div className="text-base sm:text-lg md:text-2xl font-bold text-gray-900 dark:text-gray-100 truncate">
                     {stats.followers}
                   </div>
-                  <div className="text-xs md:text-sm text-gray-600">
+                  <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400 truncate">
                     Followers
                   </div>
                 </div>
-                <div className="cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors text-center col-span-2 sm:col-span-1">
-                  <div className="text-lg md:text-2xl font-bold text-gray-900">
+                <div className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 p-2 sm:p-3 rounded-lg transition-colors text-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 col-span-2">
+                  <div className="text-base sm:text-lg md:text-2xl font-bold text-gray-900 dark:text-gray-100 truncate">
                     {stats.following}
                   </div>
-                  <div className="text-xs md:text-sm text-gray-600">
+                  <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400 truncate">
                     Following
                   </div>
                 </div>
@@ -407,8 +409,8 @@ const ProfilePage = () => {
           </div>
 
           {/* Tabs */}
-          <div className="mt-6 border-t border-gray-200">
-            <div className="flex gap-1 mt-4">
+          <div className="mt-6 border-t border-gray-200 dark:border-gray-700">
+            <div className="flex gap-1 mt-4 overflow-x-auto pb-2">
               {[
                 { id: "uploads", label: "Uploads", icon: Music },
                 { id: "likes", label: "Likes", icon: Heart },
@@ -423,10 +425,10 @@ const ProfilePage = () => {
                       setActiveTab(tab.id);
                       loadTabContent(tab.id);
                     }}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+                    className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg transition-colors whitespace-nowrap ${
                       activeTab === tab.id
-                        ? "bg-purple-100 text-purple-700 font-medium"
-                        : "text-gray-600 hover:bg-gray-100"
+                        ? "bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 font-medium"
+                        : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
                     }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -439,10 +441,10 @@ const ProfilePage = () => {
         </div>
 
         {/* Tab Content */}
-        <div className="mt-6 bg-white rounded-2xl shadow-lg p-6">
+        <div className="mt-6 bg-white dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-700/80 rounded-2xl shadow-lg dark:shadow-gray-900/50 p-6 ring-1 ring-black/10 dark:ring-white/5">
           {activeTab === "uploads" && (
             <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-4">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">
                 Uploaded Songs
               </h2>
               {tabLoading ? (
@@ -450,8 +452,8 @@ const ProfilePage = () => {
                   <Loader2 className="w-8 h-8 animate-spin text-purple-600" />
                 </div>
               ) : uploads.length === 0 ? (
-                <div className="text-center py-12 text-gray-500">
-                  <Music className="w-12 h-12 mx-auto mb-3 text-gray-400" />
+                <div className="text-center py-12 text-gray-500 dark:text-gray-400">
+                  <Music className="w-12 h-12 mx-auto mb-3 text-gray-400 dark:text-gray-500" />
                   <p>No uploads yet</p>
                 </div>
               ) : (
@@ -466,7 +468,7 @@ const ProfilePage = () => {
 
           {activeTab === "likes" && (
             <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-4">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">
                 Liked Songs
               </h2>
               {tabLoading ? (
@@ -474,8 +476,8 @@ const ProfilePage = () => {
                   <Loader2 className="w-8 h-8 animate-spin text-purple-600" />
                 </div>
               ) : likedSongs.length === 0 ? (
-                <div className="text-center py-12 text-gray-500">
-                  <Heart className="w-12 h-12 mx-auto mb-3 text-gray-400" />
+                <div className="text-center py-12 text-gray-500 dark:text-gray-400">
+                  <Heart className="w-12 h-12 mx-auto mb-3 text-gray-400 dark:text-gray-500" />
                   <p>No liked songs yet</p>
                 </div>
               ) : (
@@ -490,7 +492,7 @@ const ProfilePage = () => {
 
           {activeTab === "playlists" && (
             <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-4">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">
                 Playlists
               </h2>
               {tabLoading ? (
@@ -498,8 +500,8 @@ const ProfilePage = () => {
                   <Loader2 className="w-8 h-8 animate-spin text-purple-600" />
                 </div>
               ) : playlists.length === 0 ? (
-                <div className="text-center py-12 text-gray-500">
-                  <ListMusic className="w-12 h-12 mx-auto mb-3 text-gray-400" />
+                <div className="text-center py-12 text-gray-500 dark:text-gray-400">
+                  <ListMusic className="w-12 h-12 mx-auto mb-3 text-gray-400 dark:text-gray-500" />
                   <p>No playlists yet</p>
                 </div>
               ) : (
@@ -508,20 +510,20 @@ const ProfilePage = () => {
                     <div
                       key={playlist._id}
                       onClick={() => navigate(`/playlist/${playlist._id}`)}
-                      className="bg-gradient-to-br from-purple-50 to-pink-50 p-4 rounded-xl cursor-pointer hover:shadow-lg transition-shadow"
+                      className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/30 dark:to-pink-900/30 p-4 rounded-xl cursor-pointer hover:shadow-lg transition-shadow border border-transparent dark:border-gray-700"
                     >
                       <div className="flex items-start gap-3">
-                        <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-pink-400 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-pink-400 dark:from-purple-600 dark:to-pink-600 rounded-lg flex items-center justify-center flex-shrink-0">
                           <ListMusic className="w-8 h-8 text-white" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-semibold text-gray-900 truncate">
+                          <h3 className="font-semibold text-gray-900 dark:text-gray-100 truncate">
                             {playlist.name}
                           </h3>
-                          <p className="text-sm text-gray-600 truncate">
+                          <p className="text-sm text-gray-600 dark:text-gray-400 truncate">
                             {playlist.description || "No description"}
                           </p>
-                          <p className="text-xs text-gray-500 mt-1">
+                          <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
                             {playlist.songs?.length || 0} songs
                           </p>
                         </div>
@@ -535,11 +537,11 @@ const ProfilePage = () => {
 
           {activeTab === "activity" && (
             <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-4">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">
                 Recent Activity
               </h2>
-              <div className="text-center py-12 text-gray-500">
-                <Activity className="w-12 h-12 mx-auto mb-3 text-gray-400" />
+              <div className="text-center py-12 text-gray-500 dark:text-gray-400">
+                <Activity className="w-12 h-12 mx-auto mb-3 text-gray-400 dark:text-gray-500" />
                 <p>Activity timeline coming soon</p>
               </div>
             </div>

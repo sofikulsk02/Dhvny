@@ -4,6 +4,7 @@ services:
     env: node
     region: oregon # or change to your preferred region
     plan: free # or starter/standard for better performance
+    rootDir: backend
     buildCommand: npm install
     startCommand: node src/server.js
     envVars:
