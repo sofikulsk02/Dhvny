@@ -8,7 +8,14 @@ import FullPlayer from "../components/player/FullPlayer";
 export default function SongDetailPage() {
   const { songId } = useParams();
   const navigate = useNavigate();
-  const { setQueue, currentSong, setCurrentIndex } = usePlayer();
+  const {
+    setQueue,
+    currentSong,
+    setCurrentIndex,
+    setCurrentBySongId,
+    queue,
+    addToQueue,
+  } = usePlayer();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -38,21 +45,37 @@ export default function SongDetailPage() {
 
       console.log("✅ Song loaded:", song.title);
 
-      // Play the song if it's not already playing
-      if (currentSong?.songId !== song._id && currentSong?._id !== song._id) {
-        // Set the queue with just this song and play it
-        setQueue([
-          {
-            songId: song._id,
-            _id: song._id,
-            title: song.title,
-            artist: song.artist,
-            coverUrl: song.coverUrl,
-            audioUrl: song.audioUrl,
-            duration: song.duration,
-          },
-        ]);
-        setCurrentIndex(0);
+      // Transform song to match queue format
+      const songForQueue = {
+        songId: song._id,
+        _id: song._id,
+        id: song._id,
+        title: song.title,
+        artist: song.artist,
+        coverUrl: song.coverUrl,
+        audioUrl: song.audioUrl,
+        duration: song.duration,
+      };
+
+      // Check if song is already in queue
+      const songInQueue = queue.find(
+        (s) => (s.songId || s.id || s._id) === song._id
+      );
+
+      console.log("🔍 Song in queue?", !!songInQueue);
+
+      if (songInQueue) {
+        // Song already in queue - just switch to it and play
+        console.log("✅ Switching to song in queue");
+        setCurrentBySongId(song._id, true); // Pass true to auto-play
+      } else {
+        // Song not in queue - add it and play
+        console.log("➕ Adding song to queue and playing");
+        addToQueue(songForQueue);
+        // Wait for queue to update, then switch to this song
+        setTimeout(() => {
+          setCurrentBySongId(song._id, true); // Pass true to auto-play
+        }, 100);
       }
 
       setLoading(false);
@@ -61,7 +84,7 @@ export default function SongDetailPage() {
       setError(err.message || "Failed to load song");
       setLoading(false);
     }
-  }, [songId, navigate, setQueue, setCurrentIndex, currentSong]);
+  }, [songId, navigate, setCurrentBySongId, queue, addToQueue]);
 
   useEffect(() => {
     loadAndPlaySong();

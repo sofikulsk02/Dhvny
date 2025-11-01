@@ -5,8 +5,6 @@ import { useJam } from "../../contexts/JamContext";
 import { useAuth } from "../../hooks/useAuth";
 import SongOptionsMenu from "../song/SongOptionsMenu";
 import CommentsOverlay from "../comments/CommentsOverlay";
-import JamRequestDialog from "../jam/JamRequestDialog";
-import LyricsView from "./LyricsView";
 import playerService from "../../services/player.services";
 
 /**
@@ -24,7 +22,6 @@ export default function FullPlayer() {
     position,
     duration,
     seek,
-    setVolume,
   } = usePlayer();
 
   // Check if user is a participant (not host) in a jam session
@@ -38,14 +35,7 @@ export default function FullPlayer() {
 
   const [showOptions, setShowOptions] = useState(false);
   const [showComments, setShowComments] = useState(false);
-  const [showJam, setShowJam] = useState(false);
-  const [showLyrics, setShowLyrics] = useState(false);
-  const [volume, setLocalVolume] = useState(1);
   const seekRef = useRef(null);
-
-  useEffect(() => {
-    setLocalVolume(1);
-  }, [currentSong?.songId]);
 
   if (!currentSong) {
     return (
@@ -74,52 +64,46 @@ export default function FullPlayer() {
   }
 
   // Block participants from play/pause
-  function handleTogglePlay() {
+  function handleTogglePlay(e) {
+    e.preventDefault();
+    e.stopPropagation();
     if (isParticipantInJam) {
       console.log("🚫 PARTICIPANT: Play/Pause blocked (FullPlayer)");
       return;
     }
+    console.log("🎵 FullPlayer: Toggle play clicked");
     togglePlaying();
   }
 
   // Block participants from next
-  function handlePlayNext() {
+  function handlePlayNext(e) {
+    e.preventDefault();
+    e.stopPropagation();
     if (isParticipantInJam) {
       console.log("🚫 PARTICIPANT: Next song blocked (FullPlayer)");
       return;
     }
+    console.log("⏭️ FullPlayer: Play next clicked");
     playNext();
   }
 
   // Block participants from previous
-  function handlePlayPrevious() {
+  function handlePlayPrevious(e) {
+    e.preventDefault();
+    e.stopPropagation();
     if (isParticipantInJam) {
       console.log("🚫 PARTICIPANT: Previous song blocked (FullPlayer)");
       return;
     }
+    console.log("⏮️ FullPlayer: Play previous clicked");
     playPrevious();
   }
 
-  function onVolumeChange(e) {
-    if (isParticipantInJam) {
-      console.log("🚫 PARTICIPANT: Volume control blocked");
-      return;
-    }
-    const v = Number(e.target.value);
-    setLocalVolume(v);
-    try {
-      setVolume?.(v);
-    } catch (err) {
-      // fallback: call playerService
-      playerService.setVolume?.(v);
-    }
-  }
-
   return (
-    <div className="min-h-screen p-4 pb-32 bg-white">
+    <div className="min-h-screen p-3 pb-16 bg-gradient-to-b from-gray-900 to-black dark:from-gray-900 dark:to-black">
       {/* Participant Mode Banner */}
       {isParticipantInJam && (
-        <div className="max-w-md mx-auto mb-4 px-4 py-3 bg-indigo-100 border border-indigo-300 rounded-lg">
+        <div className="max-w-md mx-auto mb-3 px-4 py-2 bg-indigo-100 border border-indigo-300 rounded-lg">
           <p className="text-indigo-900 text-sm text-center font-medium">
             🎵 In Jam Session - Host controls playback
           </p>
@@ -127,8 +111,8 @@ export default function FullPlayer() {
       )}
 
       <div className="max-w-md mx-auto">
-        <div className="rounded-lg overflow-hidden shadow">
-          <div className="bg-gray-200 w-full h-80 flex items-center justify-center">
+        <div className="rounded-2xl overflow-hidden shadow-2xl bg-gray-800">
+          <div className="bg-gray-200 w-full aspect-square flex items-center justify-center">
             {currentSong.coverUrl ? (
               <img
                 src={currentSong.coverUrl}
@@ -136,31 +120,31 @@ export default function FullPlayer() {
                 className="w-full h-full object-cover"
               />
             ) : (
-              <div className="text-gray-400">♪</div>
+              <div className="text-gray-400 text-6xl">♪</div>
             )}
           </div>
 
-          <div className="p-4">
+          <div className="p-4 bg-gray-800">
             <div className="flex items-start justify-between">
-              <div className="min-w-0">
-                <div className="text-xl font-semibold truncate">
+              <div className="min-w-0 flex-1">
+                <div className="text-2xl font-bold text-white truncate">
                   {currentSong.title}
                 </div>
-                <div className="text-sm text-gray-500 truncate">
+                <div className="text-base text-gray-300 truncate mt-1">
                   {currentSong.artist}
                 </div>
               </div>
 
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 ml-4">
                 <button
                   onClick={() => setShowComments(true)}
-                  className="text-sm text-gray-600 px-2 py-1 rounded hover:bg-gray-100"
+                  className="text-sm text-white bg-gray-700 px-3 py-2 rounded-lg hover:bg-gray-600 transition-colors"
                 >
                   💬 Comments
                 </button>
                 <button
                   onClick={() => setShowOptions((s) => !s)}
-                  className="text-sm text-gray-600 px-2 py-1 rounded hover:bg-gray-100"
+                  className="text-sm text-white bg-gray-700 px-3 py-2 rounded-lg hover:bg-gray-600 transition-colors"
                 >
                   ⋮
                 </button>
@@ -170,7 +154,7 @@ export default function FullPlayer() {
             <div className="mt-4">
               <div
                 ref={seekRef}
-                className={`w-full h-2 bg-gray-200 rounded relative ${
+                className={`w-full h-3 bg-gray-700 rounded-full relative ${
                   isParticipantInJam
                     ? "cursor-not-allowed opacity-50"
                     : "cursor-pointer"
@@ -178,38 +162,46 @@ export default function FullPlayer() {
                 onClick={isParticipantInJam ? undefined : handleSeek}
               >
                 <div
-                  className="h-2 bg-indigo-600 rounded"
+                  className="h-3 bg-indigo-500 rounded-full transition-all"
                   style={{ width: `${progress}%` }}
                 />
               </div>
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
+              <div className="flex justify-between text-xs text-gray-400 mt-2">
                 <div>{formatTime(position)}</div>
                 <div>{formatTime(duration)}</div>
               </div>
             </div>
 
-            <div className="mt-4 flex items-center justify-center space-x-6">
+            <div className="mt-6 mb-2 flex items-center justify-center space-x-8">
               <button
+                type="button"
                 onClick={handlePlayPrevious}
                 disabled={isParticipantInJam}
-                className={`p-3 rounded-full ${
+                className={`p-4 rounded-full bg-gray-700 text-white transition-all ${
                   isParticipantInJam
                     ? "opacity-30 cursor-not-allowed"
-                    : "hover:bg-gray-100"
+                    : "hover:bg-gray-600 hover:scale-110 active:scale-95"
                 }`}
                 title={
                   isParticipantInJam ? "Host controls playback" : "Previous"
                 }
               >
-                ⏮️
+                <svg
+                  className="w-6 h-6"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M6 6h2v12H6V6zm3.5 6l8.5 6V6l-8.5 6z" />
+                </svg>
               </button>
               <button
+                type="button"
                 onClick={handleTogglePlay}
                 disabled={isParticipantInJam}
-                className={`p-4 rounded-full shadow ${
+                className={`p-6 rounded-full shadow-2xl transition-all ${
                   isParticipantInJam
-                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    : "bg-indigo-600 text-white"
+                    ? "bg-gray-500 text-gray-300 cursor-not-allowed"
+                    : "bg-indigo-600 text-white hover:bg-indigo-500 hover:scale-110 active:scale-95"
                 }`}
                 title={
                   isParticipantInJam
@@ -219,61 +211,44 @@ export default function FullPlayer() {
                     : "Play"
                 }
               >
-                {isPlaying ? "⏸️" : "▶️"}
+                {isPlaying ? (
+                  <svg
+                    className="w-8 h-8"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+                  </svg>
+                ) : (
+                  <svg
+                    className="w-8 h-8"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                )}
               </button>
               <button
+                type="button"
                 onClick={handlePlayNext}
                 disabled={isParticipantInJam}
-                className={`p-3 rounded-full ${
+                className={`p-4 rounded-full bg-gray-700 text-white transition-all ${
                   isParticipantInJam
                     ? "opacity-30 cursor-not-allowed"
-                    : "hover:bg-gray-100"
+                    : "hover:bg-gray-600 hover:scale-110 active:scale-95"
                 }`}
                 title={isParticipantInJam ? "Host controls playback" : "Next"}
               >
-                ⏭️
+                <svg
+                  className="w-6 h-6"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M6 18l8.5-6L6 6v12zm10-12v12h2V6h-2z" />
+                </svg>
               </button>
             </div>
-
-            <div className="mt-4 flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className="text-sm text-gray-600">Volume</div>
-                <input
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.01"
-                  value={volume}
-                  onChange={isParticipantInJam ? undefined : onVolumeChange}
-                  disabled={isParticipantInJam}
-                  className={`w-40 ${
-                    isParticipantInJam ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
-                  title={
-                    isParticipantInJam
-                      ? "Host controls volume"
-                      : "Adjust volume"
-                  }
-                />
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <button
-                  onClick={() => setShowLyrics((s) => !s)}
-                  className="px-3 py-1 border rounded text-sm"
-                >
-                  Lyrics
-                </button>
-                <button
-                  onClick={() => setShowJam(true)}
-                  className="px-3 py-1 bg-indigo-600 text-white rounded text-sm"
-                >
-                  Play with Friends
-                </button>
-              </div>
-            </div>
-
-            {showLyrics && <LyricsView song={currentSong} />}
 
             {showOptions && (
               <div className="absolute right-4 top-24">
@@ -291,11 +266,6 @@ export default function FullPlayer() {
       <CommentsOverlay
         visible={showComments}
         onClose={() => setShowComments(false)}
-        song={currentSong}
-      />
-      <JamRequestDialog
-        open={showJam}
-        onClose={() => setShowJam(false)}
         song={currentSong}
       />
     </div>

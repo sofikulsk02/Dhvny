@@ -108,16 +108,14 @@ export default function SongCard({
 
         if (songInQueue) {
           // Song is in queue, just switch to it
-          setCurrentBySongId(song.songId || song.id);
-          playerService.setPlaying(true);
+          setCurrentBySongId(song.songId || song.id, true); // Pass true to play immediately
         } else {
           // Song not in queue, add it and play
           addToQueue(song);
           // Set it as current (it will be the last one added)
           setTimeout(() => {
-            setCurrentBySongId(song.songId || song.id);
-            playerService.setPlaying(true);
-          }, 50);
+            setCurrentBySongId(song.songId || song.id, true); // Pass true to play immediately
+          }, 100);
         }
       } catch (err) {
         console.error("playNow error", err);
@@ -177,9 +175,14 @@ export default function SongCard({
   const handleOpenSongPage = useCallback(
     (e) => {
       e?.stopPropagation?.();
+      // First play the song if it's not current
+      if (!isCurrent) {
+        handlePlayNow(e);
+      }
+      // Then navigate to the song page
       navigate(`/songs/${encodeURIComponent(songId)}`);
     },
-    [navigate, songId]
+    [navigate, songId, isCurrent, handlePlayNow]
   );
 
   return (
@@ -188,7 +191,7 @@ export default function SongCard({
         compact ? "text-sm" : ""
       } ${
         layout === "list"
-          ? "flex items-center gap-4 p-4 mb-3"
+          ? "flex items-center gap-3 p-3 mb-3"
           : "flex flex-col shadow-md dark:shadow-gray-900/30"
       }`}
       role="article"
@@ -253,12 +256,14 @@ export default function SongCard({
       </div>
 
       {/* Song Info */}
-      <div className={`flex-1 min-w-0 ${layout === "grid" ? "p-4" : ""}`}>
-        <div className="flex items-center justify-between gap-3">
+      <div className={`flex-1 min-w-0 ${layout === "grid" ? "p-3" : ""}`}>
+        <div className="flex items-center justify-between gap-2">
           <div className="flex-1 min-w-0">
             <h3
               className={`font-semibold text-gray-900 dark:text-gray-100 truncate cursor-pointer hover:text-purple-600 dark:hover:text-purple-400 transition-colors ${
-                layout === "list" ? "text-base" : "text-sm"
+                layout === "list"
+                  ? "text-sm sm:text-base"
+                  : "text-xs sm:text-sm"
               }`}
               title={song.title}
               onClick={handleOpenSongPage}
@@ -267,7 +272,7 @@ export default function SongCard({
             </h3>
             <p
               className={`text-gray-500 dark:text-gray-400 truncate ${
-                layout === "list" ? "text-sm" : "text-xs mt-1"
+                layout === "list" ? "text-xs sm:text-sm" : "text-xs mt-0.5"
               }`}
             >
               {song.artist || "Unknown artist"}
@@ -275,11 +280,11 @@ export default function SongCard({
 
             {/* Tags - only in grid view */}
             {song.tags && song.tags.length > 0 && layout === "grid" && (
-              <div className="mt-3 flex items-center gap-2 overflow-hidden">
+              <div className="mt-2 flex items-center gap-1.5 overflow-hidden">
                 {song.tags.slice(0, 2).map((t, i) => (
                   <span
                     key={i}
-                    className="text-xs bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-300 px-2 py-1 rounded-full whitespace-nowrap"
+                    className="text-xs bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-300 px-1.5 py-0.5 rounded-full whitespace-nowrap"
                   >
                     {t}
                   </span>
@@ -295,7 +300,7 @@ export default function SongCard({
 
           {/* Duration - only in list view */}
           {layout === "list" && (
-            <div className="text-sm text-gray-400 dark:text-gray-500 px-4">
+            <div className="text-xs sm:text-sm text-gray-400 dark:text-gray-500 px-2 sm:px-4 shrink-0">
               {formatDuration(song.duration)}
             </div>
           )}

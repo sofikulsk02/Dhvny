@@ -55,11 +55,15 @@
   .dark .mobile-shell .border-gray-300,
   .dark main .border-gray-300 {
     @apply !border-gray-600;
-  } /* Handle transparent backgrounds */
+  }
+
+  /* Handle transparent backgrounds */
   .dark .mobile-shell [class*="bg-white/"],
   .dark main [class*="bg-white/"] {
     background-color: rgb(31 41 55 / var(--tw-bg-opacity, 0.8)) !important;
-  } /* Handle hover states */
+  }
+
+  /* Handle hover states */
   .dark .mobile-shell .hover\:bg-gray-50:hover,
   .dark main .hover\:bg-gray-50:hover {
     @apply !bg-gray-700;
@@ -106,4 +110,16 @@
     background-size: 200% 200%;
     animation: gradient-shift 3s ease infinite;
   }
+
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari and Opera */
+  }
+}
+
+```
 }

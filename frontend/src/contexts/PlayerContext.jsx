@@ -242,12 +242,26 @@ export function PlayerProvider({ children }) {
   );
 
   const setCurrentBySongId = useCallback(
-    (songId) => {
+    (songId, shouldPlay = false) => {
+      console.log(
+        "🎯 setCurrentBySongId called:",
+        songId,
+        "shouldPlay:",
+        shouldPlay
+      );
       const idx = queue.findIndex(
         (s) => (s._id || s.songId || s.id) === songId
       );
       if (idx !== -1) {
-        setCurrentIndex(idx);
+        console.log("✅ Found song at index:", idx, "- setting as current");
+        setCurrentIndexState(idx);
+        // Load and play immediately if requested
+        setTimeout(() => {
+          loadCurrentIntoAudio(idx, shouldPlay);
+          if (shouldPlay) {
+            setIsPlaying(true);
+          }
+        }, 0);
       } else {
         console.warn("songId not in queue:", songId);
         console.log(
@@ -256,7 +270,7 @@ export function PlayerProvider({ children }) {
         );
       }
     },
-    [queue, setCurrentIndex]
+    [queue, loadCurrentIntoAudio]
   );
 
   // playback operations

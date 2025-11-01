@@ -105,16 +105,14 @@ export default function HomePage() {
     if (songInQueue) {
       // Song phle se hi queue mein hai (the song is already in the queue)
       console.log("   Song found in queue, switching to it");
-      setCurrentBySongId(song.songId || song.id);
-      setPlaying(true);
+      setCurrentBySongId(song.songId || song.id, true); // Pass true to play immediately
     } else {
       // Song not in queue, add it and play
       console.log("   Song not in queue, adding it");
       addToQueue(song);
       // Set it as current (it will be the last one added)
       setTimeout(() => {
-        setCurrentBySongId(song.songId || song.id);
-        setPlaying(true);
+        setCurrentBySongId(song.songId || song.id, true); // Pass true to play immediately
       }, 50);
     }
   };
@@ -133,12 +131,12 @@ export default function HomePage() {
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide mb-8">
           <Link
             to="/upload"
-            className="group bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-purple-100 dark:bg-gray-900"
+            className="group bg-white/80 backdrop-blur-sm p-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 border border-purple-100 dark:bg-gray-900 flex-none w-[calc(33.333%-0.5rem)] min-w-[120px] snap-start"
           >
-            <div className="w-12 h-12 bg-linear-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <div className="w-10 h-10 bg-linear-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
               <svg
                 className="w-6 h-6 text-white"
                 fill="none"
@@ -153,17 +151,19 @@ export default function HomePage() {
                 />
               </svg>
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-1">
+            <h3 className="text-base font-semibold text-gray-900 mb-0.5 dark:text-gray-100">
               Upload Music
             </h3>
-            <p className="text-sm text-gray-600">Share your favorite tracks</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400">
+              Share your favorite tracks
+            </p>
           </Link>
 
           <Link
             to="/collections"
-            className="group dark:bg-gray-900 bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-blue-100"
+            className="group dark:bg-gray-900 bg-white/80 backdrop-blur-sm p-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 border border-blue-100 flex-none w-[calc(33.333%-0.5rem)] min-w-[120px] snap-start"
           >
-            <div className="w-12 h-12 bg-linear-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <div className="w-10 h-10 bg-linear-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
               <svg
                 className="w-6 h-6 text-white"
                 fill="none"
@@ -178,17 +178,19 @@ export default function HomePage() {
                 />
               </svg>
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-1">
+            <h3 className="text-base font-semibold text-gray-900 mb-0.5 dark:text-gray-100">
               My Collections
             </h3>
-            <p className="text-sm text-gray-600">Organize your playlists</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400">
+              Organize your playlists
+            </p>
           </Link>
 
           <Link
             to="/friends"
-            className="group dark:bg-gray-900 bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-green-100"
+            className="group dark:bg-gray-900 bg-white/80 backdrop-blur-sm p-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 border border-green-100 flex-none w-[calc(33.333%-0.5rem)] min-w-[120px] snap-start"
           >
-            <div className="w-12 h-12 bg-linear-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <div className="w-10 h-10 bg-linear-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
               <svg
                 className="w-6 h-6 text-white"
                 fill="none"
@@ -203,10 +205,12 @@ export default function HomePage() {
                 />
               </svg>
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-1">
+            <h3 className="text-base font-semibold text-gray-900 mb-0.5 dark:text-gray-100">
               Friends
             </h3>
-            <p className="text-sm text-gray-600">Connect and jam together</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400">
+              Connect and jam together
+            </p>
           </Link>
         </div>
 
@@ -244,7 +248,7 @@ export default function HomePage() {
               </Link>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide">
               {songs.slice(0, 3).map((song) => {
                 const isCurrent =
                   currentSong &&
@@ -257,9 +261,9 @@ export default function HomePage() {
                   <div
                     key={song.songId}
                     onClick={() => handlePlaySong(song)}
-                    className="group  bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+                    className="group bg-white/80 dark:bg-gray-800 backdrop-blur-sm rounded-xl p-3 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 cursor-pointer flex-none w-[calc(33.333%-0.5rem)] min-w-[120px] snap-start"
                   >
-                    <div className="aspect-square  bg-gradient-to-br from-purple-400 to-pink-400 rounded-xl mb-3 flex items-center justify-center relative overflow-hidden">
+                    <div className="aspect-square bg-gradient-to-br from-purple-400 to-pink-400 rounded-lg mb-2 flex items-center justify-center relative overflow-hidden">
                       {song.coverUrl ? (
                         <img
                           src={song.coverUrl}
@@ -276,7 +280,7 @@ export default function HomePage() {
                         </svg>
                       )}
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
-                        <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all">
+                        <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all">
                           {showPause ? (
                             <svg
                               className="w-6 h-6 text-purple-600"
@@ -298,20 +302,20 @@ export default function HomePage() {
                         </div>
                       </div>
                     </div>
-                    <h3 className="font-semibold text-gray-900 mb-1 truncate">
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-0.5 truncate">
                       {song.title}
                     </h3>
-                    <p className="text-sm text-gray-600 truncate">
+                    <p className="text-xs text-gray-600 dark:text-gray-400 truncate">
                       {song.artist || "Unknown Artist"}
                     </p>
-                    <div className="flex items-center gap-2 mt-2">
+                    <div className="flex items-center gap-1.5 mt-1.5">
                       {song.tags?.[0] && (
-                        <span className="text-xs px-2 py-1 bg-purple-100 text-purple-600 rounded-full">
+                        <span className="text-xs px-1.5 py-0.5 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-300 rounded-full">
                           {song.tags[0]}
                         </span>
                       )}
                       {song.duration && (
-                        <span className="text-xs text-gray-500">
+                        <span className="text-xs text-gray-500 dark:text-gray-400">
                           {Math.floor(song.duration / 60)}:
                           {String(Math.floor(song.duration % 60)).padStart(
                             2,
