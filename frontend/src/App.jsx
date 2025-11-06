@@ -8,6 +8,7 @@ import { JamProvider } from "./contexts/JamContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import MobileShell from "./components/layout/MobileShell";
 import SplashScreen from "./components/splash/SplashScreen";
+import Footer from "./pages/Footer";
 
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -43,6 +44,7 @@ export default function App() {
                 {isReady && (
                   <MobileShell>
                     <AppRoutes />
+                    <Footer></Footer>
                   </MobileShell>
                 )}
               </PlayerProvider>

@@ -548,14 +548,15 @@ export default function MobileShell(props) {
       </main>
 
       {/* Mini Player */}
-      <div className="fixed bottom-14 left-0 right-0 z-40 border-t bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 max-w-md mx-auto">
-        {currentSong ? (
-          <div
-            role="region"
-            aria-label="Mini player"
-            className="flex items-center px-3 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
-            onClick={() => navigate("/now-playing")}
-          >
+      {location.pathname !== "/now-playing" && (
+        <div className="fixed bottom-14 left-0 right-0 z-40 border-t bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 max-w-md mx-auto">
+          {currentSong ? (
+            <div
+              role="region"
+              aria-label="Mini player"
+              className="flex items-center px-3 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+              onClick={() => navigate("/now-playing")}
+            >
             <div className="w-12 h-12 rounded-md overflow-hidden flex-shrink-0 bg-gray-100">
               {currentSong.coverUrl ? (
                 <img
@@ -640,7 +641,8 @@ export default function MobileShell(props) {
             </div>
           </div>
         )}
-      </div>
+        </div>
+      )}
 
       {/* Bottom Nav */}
       <nav

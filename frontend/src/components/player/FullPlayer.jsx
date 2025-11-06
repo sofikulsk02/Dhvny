@@ -100,7 +100,7 @@ export default function FullPlayer() {
   }
 
   return (
-    <div className="min-h-screen p-3 pb-16 bg-gradient-to-b from-gray-900 to-black dark:from-gray-900 dark:to-black">
+    <div className="min-h-screen flex items-center justify-center p-3 pb-20 bg-gradient-to-b from-gray-900 to-black dark:from-gray-900 dark:to-black">
       {/* Participant Mode Banner */}
       {isParticipantInJam && (
         <div className="max-w-md mx-auto mb-3 px-4 py-2 bg-indigo-100 border border-indigo-300 rounded-lg">
@@ -110,7 +110,7 @@ export default function FullPlayer() {
         </div>
       )}
 
-      <div className="max-w-md mx-auto">
+      <div className="max-w-sm w-full mx-auto">
         <div className="rounded-2xl overflow-hidden shadow-2xl bg-gray-800">
           <div className="bg-gray-200 w-full aspect-square flex items-center justify-center">
             {currentSong.coverUrl ? (
@@ -124,34 +124,34 @@ export default function FullPlayer() {
             )}
           </div>
 
-          <div className="p-4 bg-gray-800">
+          <div className="p-3 bg-gray-800">
             <div className="flex items-start justify-between">
               <div className="min-w-0 flex-1">
-                <div className="text-2xl font-bold text-white truncate">
+                <div className="text-xl font-bold text-white truncate">
                   {currentSong.title}
                 </div>
-                <div className="text-base text-gray-300 truncate mt-1">
+                <div className="text-sm text-gray-300 truncate mt-0.5">
                   {currentSong.artist}
                 </div>
               </div>
 
-              <div className="flex items-center space-x-2 ml-4">
+              <div className="flex items-center space-x-2 ml-3">
                 <button
                   onClick={() => setShowComments(true)}
-                  className="text-sm text-white bg-gray-700 px-3 py-2 rounded-lg hover:bg-gray-600 transition-colors"
+                  className="text-xs text-white bg-gray-700 px-2.5 py-1.5 rounded-lg hover:bg-gray-600 transition-colors"
                 >
-                  💬 Comments
+                  💬
                 </button>
                 <button
                   onClick={() => setShowOptions((s) => !s)}
-                  className="text-sm text-white bg-gray-700 px-3 py-2 rounded-lg hover:bg-gray-600 transition-colors"
+                  className="text-xs text-white bg-gray-700 px-2.5 py-1.5 rounded-lg hover:bg-gray-600 transition-colors"
                 >
                   ⋮
                 </button>
               </div>
             </div>
 
-            <div className="mt-4">
+            <div className="mt-3">
               <div
                 ref={seekRef}
                 className={`w-full h-3 bg-gray-700 rounded-full relative ${
@@ -172,12 +172,12 @@ export default function FullPlayer() {
               </div>
             </div>
 
-            <div className="mt-6 mb-2 flex items-center justify-center space-x-8">
+            <div className="mt-4 mb-1 flex items-center justify-center space-x-6">
               <button
                 type="button"
                 onClick={handlePlayPrevious}
                 disabled={isParticipantInJam}
-                className={`p-4 rounded-full bg-gray-700 text-white transition-all ${
+                className={`p-3 rounded-full bg-gray-700 text-white transition-all ${
                   isParticipantInJam
                     ? "opacity-30 cursor-not-allowed"
                     : "hover:bg-gray-600 hover:scale-110 active:scale-95"
@@ -187,7 +187,7 @@ export default function FullPlayer() {
                 }
               >
                 <svg
-                  className="w-6 h-6"
+                  className="w-5 h-5"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -198,7 +198,7 @@ export default function FullPlayer() {
                 type="button"
                 onClick={handleTogglePlay}
                 disabled={isParticipantInJam}
-                className={`p-6 rounded-full shadow-2xl transition-all ${
+                className={`p-5 rounded-full shadow-2xl transition-all ${
                   isParticipantInJam
                     ? "bg-gray-500 text-gray-300 cursor-not-allowed"
                     : "bg-indigo-600 text-white hover:bg-indigo-500 hover:scale-110 active:scale-95"
@@ -213,7 +213,7 @@ export default function FullPlayer() {
               >
                 {isPlaying ? (
                   <svg
-                    className="w-8 h-8"
+                    className="w-7 h-7"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                   >
@@ -221,7 +221,7 @@ export default function FullPlayer() {
                   </svg>
                 ) : (
                   <svg
-                    className="w-8 h-8"
+                    className="w-7 h-7"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                   >
@@ -233,7 +233,7 @@ export default function FullPlayer() {
                 type="button"
                 onClick={handlePlayNext}
                 disabled={isParticipantInJam}
-                className={`p-4 rounded-full bg-gray-700 text-white transition-all ${
+                className={`p-3 rounded-full bg-gray-700 text-white transition-all ${
                   isParticipantInJam
                     ? "opacity-30 cursor-not-allowed"
                     : "hover:bg-gray-600 hover:scale-110 active:scale-95"
@@ -241,7 +241,7 @@ export default function FullPlayer() {
                 title={isParticipantInJam ? "Host controls playback" : "Next"}
               >
                 <svg
-                  className="w-6 h-6"
+                  className="w-5 h-5"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
