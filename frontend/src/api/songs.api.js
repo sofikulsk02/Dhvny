@@ -28,7 +28,7 @@ const BASE = "/songs";
  */
 export async function listSongs(opts = {}) {
   const { page = 1, perPage = 20, tag, q, sort, includeAll } = opts;
-  const query = { page, perPage };
+  const query = { page, limit: perPage }; // Backend expects 'limit' not 'perPage'
   if (tag) query.tag = tag;
   if (q) query.search = q; // Backend expects 'search' parameter
   if (sort) query.sort = sort;

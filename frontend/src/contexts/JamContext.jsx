@@ -26,7 +26,6 @@ export const JamProvider = ({ children }) => {
   const { socket } = useSocket();
   const { user } = useAuth();
 
-  // Debug: Log socket status changes
   useEffect(() => {
     console.log("🔌 JamContext: Socket status changed", {
       hasSocket: !!socket,
@@ -51,7 +50,7 @@ export const JamProvider = ({ children }) => {
         if (response.success) {
           setCurrentJamSession(response.jamSession);
 
-          // Join the Socket.IO room
+          // Join the Socket.IO room for nischal
           console.log("🔌 HOST: About to join Socket.IO room", {
             hasSocket: !!socket,
             socketConnected: socket?.connected,
@@ -80,7 +79,7 @@ export const JamProvider = ({ children }) => {
     [user, socket]
   );
 
-  // Fetch all available jam sessions
+  // all available jam sessions
   const fetchSessions = useCallback(async () => {
     if (!user) return;
 
@@ -97,7 +96,7 @@ export const JamProvider = ({ children }) => {
     }
   }, [user]);
 
-  // Join an existing jam session
+  // Join jam session
   const joinSession = useCallback(
     async (sessionId) => {
       if (!user) return null;
@@ -112,7 +111,7 @@ export const JamProvider = ({ children }) => {
         if (response.success) {
           setCurrentJamSession(response.jamSession);
 
-          // Join the Socket.IO room
+          // join the Socket.IO room (alag alag rooms bhi possible hai)
           console.log("🔌 About to join Socket.IO room", {
             hasSocket: !!socket,
             socketConnected: socket?.connected,
@@ -146,7 +145,7 @@ export const JamProvider = ({ children }) => {
     [user, socket]
   );
 
-  // Leave current jam session
+  // leave current jam session
   const leaveSession = useCallback(async () => {
     if (!currentJamSession || !user) return;
 
@@ -154,7 +153,7 @@ export const JamProvider = ({ children }) => {
       const sessionId = currentJamSession._id;
       await jamApi.leaveJamSession(sessionId);
 
-      // Leave the Socket.IO room
+      // leave the socket.IO room
       if (socket) {
         socket.emit("jam:participant_left", {
           jamSessionId: sessionId,
@@ -169,7 +168,7 @@ export const JamProvider = ({ children }) => {
     }
   }, [currentJamSession, user, socket]);
 
-  // End jam session (host only)
+  // end jam session (host only) my favorite
   const endSession = useCallback(async () => {
     if (!currentJamSession || !user) return;
 
@@ -186,7 +185,7 @@ export const JamProvider = ({ children }) => {
     }
   }, [currentJamSession, user, socket]);
 
-  // Add song to queue
+  // add song to queue
   const addToQueue = useCallback(
     async (songId) => {
       if (!currentJamSession) return;
@@ -213,7 +212,7 @@ export const JamProvider = ({ children }) => {
     [currentJamSession, socket]
   );
 
-  // Emit playback events
+  // emit playback events
   const emitPlay = useCallback(
     (songId, position = 0) => {
       console.log("🔊 emitPlay called - checking prerequisites...", {
@@ -305,13 +304,12 @@ export const JamProvider = ({ children }) => {
     [currentJamSession, socket]
   );
 
-  // Listen for Socket.IO events
+  // listen for socket.IO events
   useEffect(() => {
     if (!socket || !currentJamSession) return;
 
     const handlePlay = ({ songId, position }) => {
       console.log("🎵 Received jam play event:", songId, position);
-      // PlayerContext will handle this via custom event
       window.dispatchEvent(
         new CustomEvent("jam:play", { detail: { songId, position } })
       );

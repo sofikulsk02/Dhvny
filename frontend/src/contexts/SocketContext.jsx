@@ -23,7 +23,7 @@ export const SocketProvider = ({ children }) => {
       userId: user?._id,
     });
 
-    // Only connect if user is authenticated
+    // only connect if user is authenticated
     if (!user) {
       console.log("⚠️ No user, skipping socket connection");
       if (socket) {
@@ -34,8 +34,8 @@ export const SocketProvider = ({ children }) => {
       return;
     }
 
-    // Initialize socket connection
-    // Socket.IO connects to the base URL, not /api
+    // initialize socket connection
+    // socket.io connects to the base url, not /api
     const baseUrl = import.meta.env.VITE_API_BASE_URL
       ? import.meta.env.VITE_API_BASE_URL.replace("/api", "")
       : "http://localhost:4000";
@@ -82,7 +82,7 @@ export const SocketProvider = ({ children }) => {
       newSocket.disconnect();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?.id]); // Fixed: use user.id not user._id
+  }, [user?.id]);
 
   return (
     <SocketContext.Provider value={{ socket, isConnected }}>

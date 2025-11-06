@@ -17,7 +17,7 @@ export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState("light");
   const [accentColor, setAccentColor] = useState("purple");
 
-  // Load theme from user settings or localStorage
+  // load theme from user settings or localStorage
   useEffect(() => {
     if (user?.settings?.appearance) {
       const savedTheme = user.settings.appearance.theme || "light";
@@ -27,7 +27,7 @@ export const ThemeProvider = ({ children }) => {
       applyTheme(savedTheme);
       applyAccentColor(savedAccent);
     } else {
-      // Load from localStorage if not logged in
+      // load from localStorage if not logged in
       const localTheme = localStorage.getItem("theme") || "light";
       const localAccent = localStorage.getItem("accentColor") || "purple";
       setTheme(localTheme);
@@ -46,14 +46,14 @@ export const ThemeProvider = ({ children }) => {
       root.classList.remove("dark");
     }
 
-    // Save to localStorage
+    // save to localStorage
     localStorage.setItem("theme", newTheme);
   };
 
   const applyAccentColor = (color) => {
     const root = document.documentElement;
 
-    // Define color mappings
+    // define color mappings
     const colorMap = {
       purple: { primary: "#9333ea", hover: "#7e22ce", light: "#f3e8ff" },
       blue: { primary: "#2563eb", hover: "#1d4ed8", light: "#dbeafe" },
@@ -71,7 +71,7 @@ export const ThemeProvider = ({ children }) => {
     root.style.setProperty("--color-primary-hover", colors.hover);
     root.style.setProperty("--color-primary-light", colors.light);
 
-    // Save to localStorage
+    // save to localStorage
     localStorage.setItem("accentColor", color);
   };
 

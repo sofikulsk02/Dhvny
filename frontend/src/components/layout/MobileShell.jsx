@@ -557,90 +557,90 @@ export default function MobileShell(props) {
               className="flex items-center px-3 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
               onClick={() => navigate("/now-playing")}
             >
-            <div className="w-12 h-12 rounded-md overflow-hidden flex-shrink-0 bg-gray-100">
-              {currentSong.coverUrl ? (
-                <img
-                  src={currentSong.coverUrl}
-                  alt={`${currentSong.title} cover`}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400">
-                  ♪
-                </div>
-              )}
-            </div>
-
-            <div className="flex-1 mx-3 min-w-0">
-              <div className="text-sm font-medium truncate">
-                {currentSong.title}
-              </div>
-              <div className="text-xs text-gray-500 truncate">
-                {currentSong.artist}
-              </div>
-
-              <div
-                className="mt-2 h-1 bg-gray-200 rounded-full overflow-hidden cursor-pointer hover:h-1.5 transition-all"
-                onClick={(e) => {
-                  e.stopPropagation(); // Prevent triggering the mini player click
-                  const rect = e.currentTarget.getBoundingClientRect();
-                  const x = e.clientX - rect.left;
-                  const percent = x / rect.width;
-                  const newTime = percent * duration;
-                  seek(newTime);
-                }}
-              >
-                <div
-                  className="h-full bg-indigo-500 transition-all"
-                  style={{ width: `${progressPercent}%` }}
-                />
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onPlayNext();
-                }}
-                aria-label="Play next"
-                className="p-2 rounded-full hover:bg-gray-100 focus:outline-none"
-                title="Play next"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M5 4v16l11-8L5 4zM20 4v16"
-                    stroke="currentColor"
-                    strokeWidth="1.2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+              <div className="w-12 h-12 rounded-md overflow-hidden flex-shrink-0 bg-gray-100">
+                {currentSong.coverUrl ? (
+                  <img
+                    src={currentSong.coverUrl}
+                    alt={`${currentSong.title} cover`}
+                    className="w-full h-full object-cover"
                   />
-                </svg>
-              </button>
+                ) : (
+                  <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400">
+                    ♪
+                  </div>
+                )}
+              </div>
 
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onTogglePlay();
-                }}
-                aria-label={isPlaying ? "Pause" : "Play"}
-                className="p-2 w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center focus:outline-none"
-                title={isPlaying ? "Pause" : "Play"}
-              >
-                {isPlaying ? <IconPause size={18} /> : <IconPlay size={18} />}
-              </button>
+              <div className="flex-1 mx-3 min-w-0">
+                <div className="text-sm font-medium truncate">
+                  {currentSong.title}
+                </div>
+                <div className="text-xs text-gray-500 truncate">
+                  {currentSong.artist}
+                </div>
+
+                <div
+                  className="mt-2 h-1 bg-gray-200 rounded-full overflow-hidden cursor-pointer hover:h-1.5 transition-all"
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent triggering the mini player click
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const percent = x / rect.width;
+                    const newTime = percent * duration;
+                    seek(newTime);
+                  }}
+                >
+                  <div
+                    className="h-full bg-indigo-500 transition-all"
+                    style={{ width: `${progressPercent}%` }}
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onPlayNext();
+                  }}
+                  aria-label="Play next"
+                  className="p-2 rounded-full hover:bg-gray-100 focus:outline-none"
+                  title="Play next"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M5 4v16l11-8L5 4zM20 4v16"
+                      stroke="currentColor"
+                      strokeWidth="1.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onTogglePlay();
+                  }}
+                  aria-label={isPlaying ? "Pause" : "Play"}
+                  className="p-2 w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center focus:outline-none"
+                  title={isPlaying ? "Pause" : "Play"}
+                >
+                  {isPlaying ? <IconPause size={18} /> : <IconPlay size={18} />}
+                </button>
+              </div>
             </div>
-          </div>
-        ) : (
-          <div className="px-3 py-2">
-            <div className="flex items-center justify-between text-xs text-gray-500">
-              <div>No song playing</div>
-              <div className="text-right">— Dhvny</div>
+          ) : (
+            <div className="px-3 py-2">
+              <div className="flex items-center justify-between text-xs text-gray-500">
+                <div>No song playing</div>
+                <div className="text-right">— Dhvny</div>
+              </div>
             </div>
-          </div>
-        )}
+          )}
         </div>
       )}
 

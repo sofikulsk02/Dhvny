@@ -6,10 +6,6 @@ import { usePlayer } from "../hooks/usePlayer";
 import songsApi from "../api/songs.api";
 import CommentsOverlay from "../components/comments/CommentsOverlay";
 
-/**
- * MySongsPage - Main songs collection page
- * Your personal music library with all features enabled
- */
 export default function MySongsPage() {
   const { queue, addToQueue, setCurrentIndex, setPlaying, isPlaying } =
     usePlayer();
@@ -20,26 +16,24 @@ export default function MySongsPage() {
   const [showComments, setShowComments] = useState(false);
   const [viewMode, setViewMode] = useState("grid"); // grid or list
 
-  // Fetch uploaded songs from backend
   useEffect(() => {
     const fetchSongs = async () => {
       try {
         setLoading(true);
         setError("");
-        const response = await songsApi.listSongs({ perPage: 100 });
 
-        // Helper to get full URL
+        // First, fetch with a very high perPage to get all songs
+        const response = await songsApi.listSongs({ perPage: 1000, page: 1 });
+
         const getFullUrl = (url) => {
           if (!url) return "";
-          if (url.startsWith("http")) return url; // Already full URL (Cloudinary)
-          // Relative path - prepend backend URL
+          if (url.startsWith("http")) return url;
           const baseUrl =
             import.meta.env.VITE_API_BASE_URL?.replace("/api", "") ||
             "http://localhost:4000";
           return `${baseUrl}${url}`;
         };
 
-        // Transform backend response to match expected format
         const fetchedSongs = (response.songs || response.items || []).map(
           (song) => ({
             songId: song._id || song.id,
@@ -56,7 +50,10 @@ export default function MySongsPage() {
 
         setSongs(fetchedSongs);
         console.log("📀 Fetched songs:", fetchedSongs.length);
-        console.log("📀 First song:", fetchedSongs[0]);
+        console.log(
+          "📀 Total available:",
+          response.total || fetchedSongs.length
+        );
       } catch (err) {
         console.error("Failed to fetch songs:", err);
         setError("Failed to load songs. Please refresh the page.");
@@ -69,7 +66,6 @@ export default function MySongsPage() {
     fetchSongs();
   }, []);
 
-  // Auto-load songs to queue on first load
   useEffect(() => {
     if (queue.length === 0 && songs.length > 0) {
       songs.forEach((song) => addToQueue(song));
@@ -272,7 +268,7 @@ export default function MySongsPage() {
                   ))}
                 </div>
               ) : (
-                <div className="divide-y divide-gray-100 mb-3 p-4">
+                <div className="divide-y divide-gray-100  p-4">
                   {songs.map((song) => (
                     <SongCard
                       key={song.songId}

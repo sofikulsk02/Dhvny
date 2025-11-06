@@ -9,17 +9,6 @@ import React, {
 } from "react";
 import playerService from "../services/player.services";
 
-/**
- * PlayerContext
- *
- * Exposes a broad API used by app components:
- * - state: queue[], currentIndex, currentSong, isPlaying, position, duration, volume
- * - methods: addToQueue, addToQueueNext, setQueue, setCurrentIndex, setCurrentBySongId, removeFromQueueByIndex,
- *   moveInQueue, clearQueue, setPlaying, togglePlaying, playNext, playPrevious, seek, setVolume
- *
- * Also sets playerService methods so components importing playerService.* can call them.
- */
-
 export const PlayerContext = createContext(null);
 
 export function PlayerProvider({ children }) {
@@ -32,7 +21,7 @@ export function PlayerProvider({ children }) {
 
   const audioRef = useRef(null);
   const positionTimerRef = useRef(null);
-  const playNextRef = useRef(null); // Store reference to playNext function
+  const playNextRef = useRef(null); // store reference to playNext function
 
   // initialize audio element
   useEffect(() => {
@@ -77,7 +66,7 @@ export function PlayerProvider({ children }) {
     return null;
   }, [queue, currentIndex]);
 
-  // load current song into audio element (but don't auto-play unless isPlaying true)
+  // load current song into audio element
   const loadCurrentIntoAudio = useCallback(
     async (index = currentIndex, shouldPlay = false) => {
       const song = queue[index];
@@ -105,7 +94,7 @@ export function PlayerProvider({ children }) {
             await audioRef.current.play();
             console.log("▶️ Playing song:", song.title);
           } catch (err) {
-            // Autoplay might be blocked; set isPlaying state but don't throw
+            // autoplay might be blocked; set isPlaying state but don't throw
             console.warn("⚠️ Audio play prevented (autoplay block?):", err);
           }
         }
@@ -127,7 +116,7 @@ export function PlayerProvider({ children }) {
       );
       setCurrentIndexState(normalized);
       if (play) {
-        setIsPlaying(true); // Update state immediately when play is requested
+        setIsPlaying(true); // update state immediately when play is requested
       }
       setTimeout(() => loadCurrentIntoAudio(normalized, !!play), 0);
     },
@@ -311,7 +300,7 @@ export function PlayerProvider({ children }) {
     }
   }, [currentIndex, queue.length, setCurrentIndex, setPlaying]);
 
-  // Update the ref whenever playNext changes
+  // update the ref whenever playNext changes
   useEffect(() => {
     playNextRef.current = playNext;
   }, [playNext]);
@@ -383,7 +372,6 @@ export function PlayerProvider({ children }) {
     }
   }, [queue, currentIndex]);
 
-  // publish methods to playerService singleton so other non-hook files can call them
   useEffect(() => {
     playerService.setQueue = setQueue;
     playerService.addToQueue = addToQueue;
@@ -490,5 +478,4 @@ export default function usePlayer() {
   return ctx;
 }
 
-// also provide a named export for callers that use `import { usePlayer } from ...`
 export { usePlayer };

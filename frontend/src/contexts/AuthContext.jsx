@@ -1,22 +1,3 @@
-// src/contexts/AuthContext.jsx
-/**
- * AuthContext
- *
- * Provides:
- *  - AuthProvider wrapper
- *  - useAuth() hook
- *
- * Features:
- *  - Persists token using client.js (client.setAuthToken persists to localStorage).
- *  - Restores user on mount if token found (calls authApi.me()).
- *  - login/register/logout helpers with friendly return values and error handling.
- *  - Integrates client.setOnUnauthorized to auto-logout on 401 responses.
- *
- * Notes:
- *  - If your backend returns a different shape for login/register responses,
- *    adjust src/api/auth.api.js accordingly.
- */
-
 import React, {
   createContext,
   useCallback,
@@ -41,13 +22,12 @@ export function AuthProvider({ children, initialFetchUser = true }) {
     try {
       apiClient.clearAuthToken?.();
     } catch (e) {
-      // ignore
+      console.log(e.message);
     }
     setUser(null);
     setAuthError(null);
   }, []);
 
-  // logout: call optional server endpoint then clear locally
   const logout = useCallback(
     async (opts = {}) => {
       const { server = false } = opts;
@@ -56,26 +36,22 @@ export function AuthProvider({ children, initialFetchUser = true }) {
           await authApi.logout();
         }
       } catch (e) {
-        // ignore server errors for logout
+        console.log(e);
       }
       clearAuthLocal();
     },
     [clearAuthLocal]
   );
 
-  // auto-logout on 401; wire to api client
+  // auto-logout on 401 wire to api client
   useEffect(() => {
     apiClient.setOnUnauthorized?.(() => {
-      // clear and optionally redirect handled by consumer
       clearAuthLocal();
     });
-    // no cleanup of onUnauthorized because client holds single callback,
-    // but we prefer leaving the global as it helps keep app consistent.
   }, [clearAuthLocal]);
 
   // login helper
   const login = useCallback(async (credentials = {}) => {
-    // credentials: { email|username, password }
     setAuthLoading(true);
     setAuthError(null);
     try {
@@ -95,7 +71,7 @@ export function AuthProvider({ children, initialFetchUser = true }) {
         try {
           finalUser = await authApi.me();
         } catch (e) {
-          // couldn't fetch user, but token is set; proceed with null user
+          //proceed with null user
           finalUser = null;
         }
       }
@@ -112,7 +88,6 @@ export function AuthProvider({ children, initialFetchUser = true }) {
 
   // register helper
   const register = useCallback(async (payload = {}) => {
-    // payload: { username, email, password, displayName, ... }
     setAuthLoading(true);
     setAuthError(null);
     try {
@@ -155,15 +130,11 @@ export function AuthProvider({ children, initialFetchUser = true }) {
       return null;
     }
   }, []);
-
-  // On mount: restore token if client has one (client.setAuthToken persists)
   useEffect(() => {
     let mounted = true;
     (async () => {
       setTokenLoading(true);
       try {
-        // If client already has token stored via client.js (it reads localStorage on load),
-        // we just attempt to fetch /me to populate user.
         const maybeUser = await (async () => {
           try {
             return await authApi.me();
@@ -203,7 +174,7 @@ export function AuthProvider({ children, initialFetchUser = true }) {
       register,
       logout,
       refreshUser,
-      setUser, // exposed for advanced usage (e.g., profile update flows)
+      setUser,
     }),
     [
       user,

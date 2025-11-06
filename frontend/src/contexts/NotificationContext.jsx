@@ -28,7 +28,7 @@ export const NotificationProvider = ({ children }) => {
   const { socket } = useSocket();
   const { user } = useAuth();
 
-  // Fetch notifications from API
+  // Fetch notifications from api
   const fetchNotifications = useCallback(
     async ({ page = 1, limit = 20, unreadOnly = false } = {}) => {
       if (!user) return;
@@ -50,7 +50,7 @@ export const NotificationProvider = ({ children }) => {
             response.unreadCount
           );
           setNotifications(response.notifications || []);
-          setUnreadCount(response.unreadCount || 0); // ✅ Update unread count from response
+          setUnreadCount(response.unreadCount || 0); // update unread count from response
         } else {
           console.error("❌ Notification fetch failed:", response);
         }
@@ -63,7 +63,7 @@ export const NotificationProvider = ({ children }) => {
     [user]
   );
 
-  // Fetch unread count
+  // fetch unread count
   const fetchUnreadCount = useCallback(async () => {
     if (!user) return;
 
@@ -77,7 +77,7 @@ export const NotificationProvider = ({ children }) => {
     }
   }, [user]);
 
-  // Mark notification as read
+  // mark notification as read
   const markAsRead = useCallback(async (notificationId) => {
     try {
       const response = await notificationsApi.markAsRead(notificationId);
@@ -96,7 +96,7 @@ export const NotificationProvider = ({ children }) => {
     }
   }, []);
 
-  // Mark all as read
+  // mark all as read
   const markAllAsRead = useCallback(async () => {
     try {
       const response = await notificationsApi.markAllAsRead();
@@ -111,7 +111,7 @@ export const NotificationProvider = ({ children }) => {
     }
   }, []);
 
-  // Delete notification
+  // delete notification  (sare bhi eksath delete ho sakte hai)
   const deleteNotification = useCallback(async (notificationId) => {
     try {
       const response = await notificationsApi.deleteNotification(
@@ -121,7 +121,7 @@ export const NotificationProvider = ({ children }) => {
         setNotifications((prev) =>
           prev.filter((n) => n._id !== notificationId)
         );
-        // Also update unread count if it was unread
+        // also update unread count if it was unread
         setNotifications((prev) => {
           const deleted = prev.find((n) => n._id === notificationId);
           if (deleted && !deleted.isRead) {
@@ -152,18 +152,18 @@ export const NotificationProvider = ({ children }) => {
     }
   }, []);
 
-  // Listen for real-time notifications via Socket.IO
+  // Listen for real-time notifications via Socket.io (kabhi kabhi slow)
   useEffect(() => {
     if (!socket || !user) return;
 
-    // Handler for new notification
+    // handler for new notification
     const handleNewNotification = (notification) => {
       console.log("New notification received:", notification);
       setNotifications((prev) => [notification, ...prev]);
       setUnreadCount((prev) => prev + 1);
     };
 
-    // Handler for notification marked as read
+    // handler for notification marked as read
     const handleMarkedRead = ({ notificationId }) => {
       setNotifications((prev) =>
         prev.map((n) => (n._id === notificationId ? { ...n, isRead: true } : n))
@@ -179,7 +179,7 @@ export const NotificationProvider = ({ children }) => {
     };
   }, [socket, user]);
 
-  // Initial fetch on mount
+  // initial fetch on mount
   useEffect(() => {
     if (user) {
       console.log(

@@ -5,11 +5,6 @@ import FriendsList from "../components/friends/FriendsList";
 import FriendRequest from "../components/friends/FriendRequest";
 import SendFriendRequestModal from "../modals/SendFriendRequestModal";
 
-/**
- * FriendsPage - Manage friends and friend requests
- * Tabs: Friends | Requests | Find Friends
- */
-
 export default function FriendsPage() {
   const [activeTab, setActiveTab] = useState("friends"); // friends | requests | find
   const [friends, setFriends] = useState([]);
@@ -93,7 +88,7 @@ export default function FriendsPage() {
   const requestCount = pendingRequests.length;
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-950 p-4 pb-24">
+    <div className="min-h-screen p-4 pb-24">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-4">

@@ -4,27 +4,17 @@ import uploadApi from "../api/upload.api";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
-/**
- * UploadPage - Modern song upload interface
- * Features:
- * - Drag & drop audio file upload
- * - Cover image upload with preview
- * - Metadata form (title, artist, album, genre, tags, lyrics)
- * - Upload progress bar
- * - Audio file preview with duration detection
- */
-
 export default function UploadPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  // File states
+  // file states
   const [audioFile, setAudioFile] = useState(null);
   const [coverFile, setCoverFile] = useState(null);
   const [audioPreview, setAudioPreview] = useState(null);
   const [coverPreview, setCoverPreview] = useState(null);
 
-  // Form states
+  // form states
   const [title, setTitle] = useState("");
   const [artist, setArtist] = useState("");
   const [album, setAlbum] = useState("");
@@ -33,7 +23,7 @@ export default function UploadPage() {
   const [lyrics, setLyrics] = useState("");
   const [duration, setDuration] = useState(0);
 
-  // UI states
+  // ui states
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState("");
@@ -43,17 +33,17 @@ export default function UploadPage() {
   const coverInputRef = useRef(null);
   const audioRef = useRef(null);
 
-  // Handle audio file selection
+  // handle audio file selection
   const handleAudioChange = useCallback((file) => {
     if (!file) return;
 
-    // Validate file type
+    // validate file type
     if (!file.type.startsWith("audio/")) {
       setError("Please select a valid audio file");
       return;
     }
 
-    // Validate file size (50MB max)
+    // validate file size (50MB max)
     if (file.size > 50 * 1024 * 1024) {
       setError("Audio file must be less than 50MB");
       return;
@@ -62,7 +52,7 @@ export default function UploadPage() {
     setAudioFile(file);
     setError("");
 
-    // Create audio preview to get duration
+    // create audio preview to get duration
     const url = URL.createObjectURL(file);
     setAudioPreview(url);
 
@@ -72,17 +62,17 @@ export default function UploadPage() {
     });
   }, []);
 
-  // Handle cover image selection
+  // handle cover image selection
   const handleCoverChange = useCallback((file) => {
     if (!file) return;
 
-    // Validate file type
+    // validate file type
     if (!file.type.startsWith("image/")) {
       setError("Please select a valid image file");
       return;
     }
 
-    // Validate file size (5MB max)
+    // Validate File Sze (5MB max)
     if (file.size > 5 * 1024 * 1024) {
       setError("Cover image must be less than 5MB");
       return;
@@ -91,12 +81,12 @@ export default function UploadPage() {
     setCoverFile(file);
     setError("");
 
-    // Create preview
+    // create preview
     const url = URL.createObjectURL(file);
     setCoverPreview(url);
   }, []);
 
-  // Drag and drop handlers
+  // drag and drop handlers
   const handleDrag = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -125,12 +115,12 @@ export default function UploadPage() {
     [handleAudioChange, handleCoverChange]
   );
 
-  // Handle form submission
+  // handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
-    // Validation
+    // validation
     if (!audioFile) {
       setError("Please select an audio file");
       return;
@@ -179,8 +169,6 @@ export default function UploadPage() {
         coverFile
       );
 
-      // The API returns an object on success; if response is falsy something
-      // went wrong at network level (we guard against reading undefined)
       if (!response) {
         setError(
           "No response from server. Make sure the backend is running at http://localhost:4000"

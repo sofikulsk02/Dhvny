@@ -1,22 +1,3 @@
-// src/services/player.service.js
-/**
- * Player service - manages queue, current index, shuffle & repeat modes, and state subscriptions.
- *
- * Usage:
- *   import playerService from "../services/player.service";
- *
- *   playerService.init({ persist: true }); // optional
- *   playerService.addToQueue(song); // song object or { songId: '...' }
- *   playerService.addToQueueNext(song);
- *   playerService.playNext(); // returns the next song object or null
- *   playerService.subscribe(state => { ... }); // listen to updates
- *
- * Note:
- *   - If a song is provided as an object with full metadata it's used as-is.
- *   - If a song is provided as { songId: '...' } and you want full metadata,
- *     enable `useRemoteResolver` (default true) and ensure `src/api/songs.api.js` exists.
- */
-
 import songsApi from "../api/songs.api";
 
 const STORAGE_KEY = "dhvny_player";
@@ -38,13 +19,12 @@ const defaultState = {
   updatedAt: Date.now(),
 };
 
-/* Simple in-memory pub/sub */
 class PlayerService {
   constructor() {
     this.state = { ...defaultState };
     this.listeners = new Set();
     this.persist = true;
-    this.useRemoteResolver = true; // if true, will call songsApi.getSong when only id provided
+    this.useRemoteResolver = true;
     this.restoreFromStorage();
   }
 
@@ -63,7 +43,6 @@ class PlayerService {
     }
   }
 
-  /* persistence */
   restoreFromStorage() {
     try {
       const raw =
@@ -77,7 +56,7 @@ class PlayerService {
         }
       }
     } catch (e) {
-      // ignore
+      console.log(e);
     }
   }
 
@@ -85,7 +64,6 @@ class PlayerService {
     if (!this.persist) return;
     try {
       if (typeof window !== "undefined") {
-        // Only save essential fields (avoid saving large objects unnecessarily)
         const payload = {
           queue: this.state.queue,
           currentIndex: this.state.currentIndex,
@@ -96,14 +74,12 @@ class PlayerService {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
       }
     } catch (e) {
-      // ignore storage errors
+      console.log(e.mesage);
     }
   }
 
-  /* pub/sub */
   subscribe(fn) {
     this.listeners.add(fn);
-    // send initial snapshot
     fn(this.getState());
     return () => this.listeners.delete(fn);
   }
@@ -116,14 +92,12 @@ class PlayerService {
       try {
         l(snapshot);
       } catch (e) {
-        // swallow listener errors
-        // (listeners should handle their own exceptions)
+        console.log(e.mesage);
       }
     }
   }
 
   getState() {
-    // return a shallow copy to avoid direct mutation
     return {
       queue: [...this.state.queue],
       currentIndex: this.state.currentIndex,
@@ -135,25 +109,21 @@ class PlayerService {
     };
   }
 
-  /* Helpers */
   async resolveSong(maybeSong) {
-    // If it's an object with songId only, try to fetch full data
     if (!maybeSong) return null;
     if (typeof maybeSong === "object" && !maybeSong.songId && maybeSong.title) {
-      return maybeSong; // full object already
+      return maybeSong;
     }
     if (typeof maybeSong === "string") {
-      // assume songId
       maybeSong = { songId: maybeSong };
     }
     if (maybeSong.songId && this.useRemoteResolver) {
       try {
         const res = await songsApi.getSong(maybeSong.songId);
-        // backend expected to return song or { song: {...} }
         if (res && res.song) return res.song;
         return res;
       } catch (e) {
-        // fallback to minimal object with id
+        console.log(e.message);
         return {
           songId: maybeSong.songId,
           title: maybeSong.title || "Unknown",
@@ -164,11 +134,9 @@ class PlayerService {
     return maybeSong;
   }
 
-  /* queue operations */
   async addToQueue(songOrId) {
     const song = await this.resolveSong(songOrId);
     this.state.queue.push(song);
-    // if nothing selected, select first added
     if (this.state.currentIndex === -1) {
       this.state.currentIndex = 0;
     }
@@ -183,7 +151,6 @@ class PlayerService {
         ? this.state.currentIndex + 1
         : this.state.queue.length;
     this.state.queue.splice(idx, 0, song);
-    // if nothing selected, select first
     if (this.state.currentIndex === -1) this.state.currentIndex = 0;
     this.emitChange();
     return song;
@@ -192,7 +159,6 @@ class PlayerService {
   async addMultiple(songsArray = []) {
     const resolved = [];
     for (const s of songsArray) {
-      // sequential resolution to avoid flooding backend
       const r = await this.resolveSong(s);
       resolved.push(r);
       this.state.queue.push(r);
@@ -209,7 +175,6 @@ class PlayerService {
     if (index < this.state.currentIndex) {
       this.state.currentIndex = Math.max(0, this.state.currentIndex - 1);
     } else if (index === this.state.currentIndex) {
-      // if removing current, try to keep playing next item at same index
       if (this.state.queue.length === 0) {
         this.state.currentIndex = -1;
         this.state.isPlaying = false;
@@ -240,7 +205,6 @@ class PlayerService {
     }
     const [item] = this.state.queue.splice(fromIndex, 1);
     this.state.queue.splice(toIndex, 0, item);
-    // adjust currentIndex if needed
     if (this.state.currentIndex === fromIndex) {
       this.state.currentIndex = toIndex;
     } else if (
@@ -277,7 +241,6 @@ class PlayerService {
     this.emitChange();
   }
 
-  /* playback controls */
   setPlaying(flag) {
     this.state.isPlaying = !!flag;
     this.emitChange();
@@ -312,7 +275,6 @@ class PlayerService {
     return this.state.queue[this.state.currentIndex] ?? null;
   }
 
-  /* repeat/shuffle */
   setShuffle(enabled) {
     this.state.shuffle = !!enabled;
     this.emitChange();
@@ -331,7 +293,6 @@ class PlayerService {
     this.emitChange();
   }
 
-  /* navigation logic */
   async playNext() {
     if (!this.state.queue.length) {
       this.state.isPlaying = false;
@@ -339,7 +300,6 @@ class PlayerService {
       return null;
     }
 
-    // if repeat one -> same song
     if (this.state.repeat === "one") {
       this.state.isPlaying = true;
       this.emitChange();
@@ -347,7 +307,6 @@ class PlayerService {
     }
 
     if (this.state.shuffle) {
-      // pick random index other than current if possible
       if (this.state.queue.length === 1) {
         this.state.currentIndex = 0;
       } else {
@@ -362,7 +321,6 @@ class PlayerService {
       return this.getCurrentSong();
     }
 
-    // normal sequential
     const nextIndex = this.state.currentIndex + 1;
     if (nextIndex < this.state.queue.length) {
       this.state.currentIndex = nextIndex;
@@ -371,7 +329,6 @@ class PlayerService {
       return this.getCurrentSong();
     }
 
-    // reached end
     if (this.state.repeat === "all") {
       this.state.currentIndex = 0;
       this.state.isPlaying = true;
@@ -379,7 +336,6 @@ class PlayerService {
       return this.getCurrentSong();
     }
 
-    // no more songs
     this.state.isPlaying = false;
     this.emitChange();
     return null;
@@ -392,7 +348,6 @@ class PlayerService {
       return null;
     }
 
-    // if repeat one -> same
     if (this.state.repeat === "one") {
       this.state.isPlaying = true;
       this.emitChange();
@@ -400,7 +355,6 @@ class PlayerService {
     }
 
     if (this.state.shuffle) {
-      // random pick
       if (this.state.queue.length === 1) {
         this.state.currentIndex = 0;
       } else {
@@ -436,7 +390,6 @@ class PlayerService {
     return null;
   }
 
-  /** Seek and/or update progress metadata only; actual audio element should be controlled by player UI */
   updateProgress(seconds) {
     const s = this.state.queue[this.state.currentIndex];
     if (!s) return;
@@ -444,7 +397,6 @@ class PlayerService {
     this.emitChange();
   }
 
-  /** Shuffle queue items but keep current song in place */
   shuffleQueue() {
     if (!this.state.queue || this.state.queue.length <= 1) return;
     const current = this.getCurrentSong();
@@ -454,13 +406,11 @@ class PlayerService {
       const j = Math.floor(Math.random() * (i + 1));
       [items[i], items[j]] = [items[j], items[i]];
     }
-    // ensure current remains the same item (find index of the same songId)
     const curId = current && (current.songId || current.id);
     const newIndex = items.findIndex(
       (it) => it && (it.songId === curId || it.id === curId)
     );
     if (newIndex !== -1) {
-      // swap newIndex to be at front of currentIndex position
       const targetIndex = Math.min(
         this.state.currentIndex >= 0 ? this.state.currentIndex : 0,
         items.length - 1
@@ -470,14 +420,12 @@ class PlayerService {
       this.state.queue = items;
       this.state.currentIndex = targetIndex;
     } else {
-      // fallback
       this.state.queue = items;
       this.state.currentIndex = 0;
     }
     this.emitChange();
   }
 
-  /* utility getters */
   getQueue() {
     return this.state.queue.slice();
   }
@@ -487,7 +435,6 @@ class PlayerService {
   }
 }
 
-/* Export a singleton instance */
 const playerService = new PlayerService();
 
 export default playerService;

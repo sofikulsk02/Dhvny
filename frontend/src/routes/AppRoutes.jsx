@@ -19,9 +19,6 @@ import PlaylistDetail from "../components/collections/PlaylistDetail";
 import ProfilePage from "../components/profile/ProfilePage";
 import SettingsPage from "../components/profile/SettingsPage";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
-// import PlaylistPage from "./pages/PlaylistPage";
-// import TestSongsAdvancedPage from "./pages/TestSongsAdvancedPage";
-
 export default function AppRoutes() {
   return (
     <Routes>
