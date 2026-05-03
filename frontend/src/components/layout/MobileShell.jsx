@@ -373,6 +373,9 @@ export default function MobileShell(props) {
   const progressPercent =
     duration > 0 ? Math.min(100, Math.round((position / duration) * 100)) : 0;
 
+  // Check if on auth page
+  const isAuthPage = location.pathname.startsWith("/auth/");
+
   return (
     <div
       className="mobile-shell min-h-screen max-w-md mx-auto bg-white dark:bg-[#0c0c0c] text-gray-900 dark:text-gray-100 flex flex-col transition-colors"
@@ -382,173 +385,177 @@ export default function MobileShell(props) {
         paddingBottom: "env(safe-area-inset-bottom, 0)",
       }}
     >
-      {/* Top bar */}
-      <header
-        className="fixed top-0 left-0 right-0 z-50 flex items-center px-3 py-2 border-b dark:border-gray-700 bg-white dark:bg-[#0c0c0c] max-w-md mx-auto"
-        role="banner"
-      >
-        {/* Profile with dropdown */}
-        <div className="relative" ref={profileMenuRef}>
-          <button
-            type="button"
-            aria-label="Open profile menu"
-            onClick={handleProfileMenuClick}
-            className="p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
-          >
-            {currentUser && currentUser.avatarUrl ? (
-              <img
-                src={currentUser.avatarUrl}
-                alt={`${
-                  currentUser.displayName || currentUser.username
-                } avatar`}
-                className="w-9 h-9 rounded-full object-cover"
-              />
-            ) : (
-              <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-indigo-600">
-                <IconProfile size={18} />
-              </div>
-            )}
-          </button>
-
-          {/* Profile Dropdown Menu */}
-          {showProfileMenu && currentUser && (
-            <div className="absolute left-0 top-full mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
-              {/* User Info */}
-              <div className="px-4 py-3 border-b border-gray-100">
-                <div className="font-semibold text-gray-900 truncate">
-                  {currentUser.displayName || currentUser.username}
-                </div>
-                <div className="text-sm text-gray-500 truncate">
-                  @{currentUser.username}
-                </div>
-              </div>
-
-              {/* Menu Items */}
-              <div className="py-2">
-                <button
-                  onClick={() => {
-                    setShowProfileMenu(false);
-                    navigate("/profile");
-                  }}
-                  className="w-full flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-indigo-50 transition-colors text-left"
-                >
-                  <IconProfile size={16} />
-                  <span>My Profile</span>
-                </button>
-
-                <button
-                  onClick={() => {
-                    setShowProfileMenu(false);
-                    navigate("/settings");
-                  }}
-                  className="w-full flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-indigo-50 transition-colors text-left"
-                >
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.2"
-                  >
-                    <circle cx="12" cy="12" r="3" />
-                    <path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m5.66 5.66l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m5.66-5.66l4.24-4.24" />
-                  </svg>
-                  <span>Settings</span>
-                </button>
-
-                <div className="my-2 border-t border-gray-100"></div>
-
-                <button
-                  onClick={handleLogout}
-                  className="w-full flex items-center gap-3 px-4 py-2 text-red-600 hover:bg-red-50 transition-colors text-left"
-                >
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.2"
-                  >
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                    <polyline points="16 17 21 12 16 7" />
-                    <line x1="21" y1="12" x2="9" y2="12" />
-                  </svg>
-                  <span>Logout</span>
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Search */}
-        <form
-          onSubmit={handleSearchSubmit}
-          className="flex-1 mx-3"
-          role="search"
-          aria-label="Search songs"
+      {/* Top bar - hidden on auth pages */}
+      {!isAuthPage && (
+        <header
+          className="fixed top-0 left-0 right-0 z-50 flex items-center px-3 py-2 border-b dark:border-gray-700 bg-white dark:bg-[#0c0c0c] max-w-md mx-auto"
+          role="banner"
         >
-          <label htmlFor="shell-search" className="sr-only">
-            Search songs
-          </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <IconSearch size={16} />
-            </div>
+          {/* Profile with dropdown */}
+          <div className="relative" ref={profileMenuRef}>
+            <button
+              type="button"
+              aria-label="Open profile menu"
+              onClick={handleProfileMenuClick}
+              className="p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            >
+              {currentUser && currentUser.avatarUrl ? (
+                <img
+                  src={currentUser.avatarUrl}
+                  alt={`${
+                    currentUser.displayName || currentUser.username
+                  } avatar`}
+                  className="w-9 h-9 rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-indigo-600">
+                  <IconProfile size={18} />
+                </div>
+              )}
+            </button>
 
-            <input
-              id="shell-search"
-              type="search"
-              inputMode="search"
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-                setShowClear(!!e.target.value);
-              }}
-              placeholder="Search songs..."
-              className="w-full pl-10 pr-10 py-2 rounded-xl border bg-gray-50 text-sm focus:ring-2 focus:ring-indigo-400 focus:border-transparent"
-            />
+            {/* Profile Dropdown Menu */}
+            {showProfileMenu && currentUser && (
+              <div className="absolute left-0 top-full mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
+                {/* User Info */}
+                <div className="px-4 py-3 border-b border-gray-100">
+                  <div className="font-semibold text-gray-900 truncate">
+                    {currentUser.displayName || currentUser.username}
+                  </div>
+                  <div className="text-sm text-gray-500 truncate">
+                    @{currentUser.username}
+                  </div>
+                </div>
 
-            {showClear && (
-              <button
-                type="button"
-                onClick={handleClearSearch}
-                aria-label="Clear search"
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500"
-              >
-                ✕
-              </button>
+                {/* Menu Items */}
+                <div className="py-2">
+                  <button
+                    onClick={() => {
+                      setShowProfileMenu(false);
+                      navigate("/profile");
+                    }}
+                    className="w-full flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-indigo-50 transition-colors text-left"
+                  >
+                    <IconProfile size={16} />
+                    <span>My Profile</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setShowProfileMenu(false);
+                      navigate("/settings");
+                    }}
+                    className="w-full flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-indigo-50 transition-colors text-left"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.2"
+                    >
+                      <circle cx="12" cy="12" r="3" />
+                      <path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m5.66 5.66l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m5.66-5.66l4.24-4.24" />
+                    </svg>
+                    <span>Settings</span>
+                  </button>
+
+                  <div className="my-2 border-t border-gray-100"></div>
+
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-3 px-4 py-2 text-red-600 hover:bg-red-50 transition-colors text-left"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.2"
+                    >
+                      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                      <polyline points="16 17 21 12 16 7" />
+                      <line x1="21" y1="12" x2="9" y2="12" />
+                    </svg>
+                    <span>Logout</span>
+                  </button>
+                </div>
+              </div>
             )}
           </div>
-        </form>
 
-        {/* Notifications */}
-        <button
-          type="button"
-          aria-label="Open notifications"
-          onClick={onNotificationsClick}
-          className="p-2 rounded-full relative focus:outline-none focus:ring-2 focus:ring-indigo-400"
-        >
-          <IconBell size={20} />
-          {unreadNotifications > 0 && (
-            <span
-              className="absolute -top-0.5 -right-0.5 inline-flex items-center justify-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-red-500 text-white"
-              aria-live="polite"
-            >
-              {unreadNotifications > 9 ? "9+" : unreadNotifications}
-            </span>
-          )}
-        </button>
-      </header>
+          {/* Search */}
+          <form
+            onSubmit={handleSearchSubmit}
+            className="flex-1 mx-3"
+            role="search"
+            aria-label="Search songs"
+          >
+            <label htmlFor="shell-search" className="sr-only">
+              Search songs
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <IconSearch size={16} />
+              </div>
+
+              <input
+                id="shell-search"
+                type="search"
+                inputMode="search"
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setShowClear(!!e.target.value);
+                }}
+                placeholder="Search songs..."
+                className="w-full pl-10 pr-10 py-2 rounded-xl border bg-gray-50 text-sm focus:ring-2 focus:ring-indigo-400 focus:border-transparent"
+              />
+
+              {showClear && (
+                <button
+                  type="button"
+                  onClick={handleClearSearch}
+                  aria-label="Clear search"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+          </form>
+
+          {/* Notifications */}
+          <button
+            type="button"
+            aria-label="Open notifications"
+            onClick={onNotificationsClick}
+            className="p-2 rounded-full relative focus:outline-none focus:ring-2 focus:ring-indigo-400"
+          >
+            <IconBell size={20} />
+            {unreadNotifications > 0 && (
+              <span
+                className="absolute -top-0.5 -right-0.5 inline-flex items-center justify-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-red-500 text-white"
+                aria-live="polite"
+              >
+                {unreadNotifications > 9 ? "9+" : unreadNotifications}
+              </span>
+            )}
+          </button>
+        </header>
+      )}
 
       {/* Main content */}
-      <main className="flex-1 overflow-auto pt-14 pb-32">
+      <main
+        className={`flex-1 overflow-auto ${isAuthPage ? "pt-0 pb-0" : "pt-14 pb-32"}`}
+      >
         <div className="px-4 py-3">{children}</div>
       </main>
 
-      {/* Mini Player */}
-      {location.pathname !== "/now-playing" && (
+      {/* Mini Player - hidden on auth pages */}
+      {!isAuthPage && location.pathname !== "/now-playing" && (
         <div className="fixed bottom-14 left-0 right-0 z-40 border-t bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 max-w-md mx-auto">
           {currentSong ? (
             <div
@@ -644,89 +651,91 @@ export default function MobileShell(props) {
         </div>
       )}
 
-      {/* Bottom Nav */}
-      <nav
-        className="fixed bottom-0 left-0 right-0 z-50 border-t bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 max-w-md mx-auto"
-        role="navigation"
-        aria-label="Bottom Navigation"
-      >
-        <div className="flex justify-between items-center px-4 py-2">
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              `flex flex-col items-center text-xs ${
-                isActive ? "text-indigo-600" : "text-gray-600"
-              }`
-            }
-            aria-label="Home"
-          >
-            <div className="w-6 h-6 mb-0.5">
-              <IconHome />
-            </div>
-            <span>Home</span>
-          </NavLink>
+      {/* Bottom Nav - hidden on auth pages */}
+      {!isAuthPage && (
+        <nav
+          className="fixed bottom-0 left-0 right-0 z-50 border-t bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 max-w-md mx-auto"
+          role="navigation"
+          aria-label="Bottom Navigation"
+        >
+          <div className="flex justify-between items-center px-4 py-2">
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                `flex flex-col items-center text-xs ${
+                  isActive ? "text-indigo-600" : "text-gray-600"
+                }`
+              }
+              aria-label="Home"
+            >
+              <div className="w-6 h-6 mb-0.5">
+                <IconHome />
+              </div>
+              <span>Home</span>
+            </NavLink>
 
-          <NavLink
-            to="/my-songs"
-            className={({ isActive }) =>
-              `flex flex-col items-center text-xs ${
-                isActive ? "text-indigo-600" : "text-gray-600"
-              }`
-            }
-            aria-label="My Songs"
-          >
-            <div className="w-6 h-6 mb-0.5">
-              <IconMusic />
-            </div>
-            <span>My Songs</span>
-          </NavLink>
+            <NavLink
+              to="/my-songs"
+              className={({ isActive }) =>
+                `flex flex-col items-center text-xs ${
+                  isActive ? "text-indigo-600" : "text-gray-600"
+                }`
+              }
+              aria-label="My Songs"
+            >
+              <div className="w-6 h-6 mb-0.5">
+                <IconMusic />
+              </div>
+              <span>My Songs</span>
+            </NavLink>
 
-          <NavLink
-            to="/jam"
-            className={({ isActive }) =>
-              `flex flex-col items-center text-xs ${
-                isActive ? "text-indigo-600" : "text-gray-600"
-              }`
-            }
-            aria-label="Jam Sessions"
-          >
-            <div className="w-6 h-6 mb-0.5">
-              <IconJam />
-            </div>
-            <span>Jam</span>
-          </NavLink>
+            <NavLink
+              to="/jam"
+              className={({ isActive }) =>
+                `flex flex-col items-center text-xs ${
+                  isActive ? "text-indigo-600" : "text-gray-600"
+                }`
+              }
+              aria-label="Jam Sessions"
+            >
+              <div className="w-6 h-6 mb-0.5">
+                <IconJam />
+              </div>
+              <span>Jam</span>
+            </NavLink>
 
-          <NavLink
-            to="/collections"
-            className={({ isActive }) =>
-              `flex flex-col items-center text-xs ${
-                isActive ? "text-indigo-600" : "text-gray-600"
-              }`
-            }
-            aria-label="Collections"
-          >
-            <div className="w-6 h-6 mb-0.5">
-              <IconCollections />
-            </div>
-            <span>Collections</span>
-          </NavLink>
+            <NavLink
+              to="/collections"
+              className={({ isActive }) =>
+                `flex flex-col items-center text-xs ${
+                  isActive ? "text-indigo-600" : "text-gray-600"
+                }`
+              }
+              aria-label="Collections"
+            >
+              <div className="w-6 h-6 mb-0.5">
+                <IconCollections />
+              </div>
+              <span>Collections</span>
+            </NavLink>
 
-          <NavLink
-            to="/friends"
-            className={({ isActive }) =>
-              `flex flex-col items-center text-xs ${
-                isActive ? "text-indigo-600" : "text-gray-600"
-              }`
-            }
-            aria-label="Friends"
-          >
-            <div className="w-6 h-6 mb-0.5">
-              <IconFriends />
-            </div>
-            <span>Friends</span>
-          </NavLink>
-        </div>
-      </nav>
+            <NavLink
+              to="/friends"
+              className={({ isActive }) =>
+                `flex flex-col items-center text-xs ${
+                  isActive ? "text-indigo-600" : "text-gray-600"
+                }`
+              }
+              aria-label="Friends"
+            >
+              <div className="w-6 h-6 mb-0.5">
+                <IconFriends />
+              </div>
+              <span>Friends</span>
+            </NavLink>
+          </div>
+        </nav>
+      )}
     </div>
   );
 }
