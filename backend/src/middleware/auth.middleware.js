@@ -21,7 +21,7 @@ export const protect = async (req, res, next) => {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       const user = await User.findById(decoded.id).select(
-        "-password -refreshToken"
+        "-password -refreshToken",
       );
 
       if (!user) {
@@ -55,7 +55,7 @@ export const optionalAuth = async (req, res, next) => {
       try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const user = await User.findById(decoded.id).select(
-          "-password -refreshToken"
+          "-password -refreshToken",
         );
         if (user) {
           req.user = user;

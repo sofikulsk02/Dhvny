@@ -15,53 +15,40 @@ import {
 
 const router = express.Router();
 
-/**
- * @route   GET /api/songs
- * @desc    Get all songs with pagination and filters
- * @access  Public
- */
+// @route   GET /api/songs
+// @desc    Get all songs with pagination and optional search
+// @access  Public
+
 router.get("/", optionalAuth, getAllSongs);
 
-/**
- * @route   GET /api/songs/:id
- * @desc    Get single song by ID
- * @access  Public
- */
+// @route   GET /api/songs/:id
+// @desc    Get song by ID
+// @access  Public
 router.get("/:id", optionalAuth, getSongById);
 
-/**
- * @route   GET /api/songs/user/:userId
- * @desc    Get all songs by a specific user
- * @access  Public
- */
+// @route   GET /api/songs/user/:userId
+// @desc    Get all songs uploaded by a specific user
+// @access  Public
 router.get("/user/:userId", optionalAuth, getSongsByUser);
 
-/**
- * @route   PATCH /api/songs/:id
- * @desc    Update song metadata
- * @access  Private (uploader only)
- */
+// @route   PATCH /api/songs/:id
+// @desc    Update a song's details (title, description, etc.)
+// @access  Private (uploader only)
 router.patch("/:id", protect, updateSong);
 
-/**
- * @route   DELETE /api/songs/:id
- * @desc    Delete a song
- * @access  Private (uploader only)
- */
+// @route   DELETE /api/songs/:id
+// @desc    Delete a song
+// @access  Private (uploader only)
 router.delete("/:id", protect, deleteSong);
 
-/**
- * @route   POST /api/songs/:id/play
- * @desc    Increment play count
- * @access  Public
- */
+// @route   POST /api/songs/:id/play
+// @desc    Increment play count for a song
+// @access  Public
 router.post("/:id/play", incrementPlayCount);
 
-/**
- * @route   POST /api/songs/:songId/comments
- * @desc    Create a comment on a song
- * @access  Private
- */
+// @route   POST /api/songs/:songId/comments
+// @desc    Create a comment on a song
+// @access  Private
 router.post("/:songId/comments", protect, createComment);
 
 /**

@@ -1,7 +1,6 @@
 import User from "../models/User.model.js";
 import { generateToken, generateRefreshToken } from "../utils/jwt.utils.js";
 
-// @desc    Register new user
 // @route   POST /api/auth/register
 // @access  Public
 export const register = async (req, res, next) => {
@@ -47,6 +46,13 @@ export const register = async (req, res, next) => {
     user.refreshToken = refreshToken;
     await user.save();
 
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+
     res.status(201).json({
       ok: true,
       user: {
@@ -65,7 +71,6 @@ export const register = async (req, res, next) => {
   }
 };
 
-// @desc    Login user
 // @route   POST /api/auth/login
 // @access  Public
 export const login = async (req, res, next) => {
@@ -131,7 +136,6 @@ export const login = async (req, res, next) => {
   }
 };
 
-// @desc    Get current user
 // @route   GET /api/auth/me
 // @access  Private
 export const getMe = async (req, res, next) => {
@@ -164,7 +168,6 @@ export const getMe = async (req, res, next) => {
   }
 };
 
-// @desc    Logout user
 // @route   POST /api/auth/logout
 // @access  Private
 export const logout = async (req, res, next) => {
@@ -185,7 +188,6 @@ export const logout = async (req, res, next) => {
   }
 };
 
-// @desc    Refresh access token
 // @route   POST /api/auth/refresh
 // @access  Public
 export const refreshToken = async (req, res, next) => {
